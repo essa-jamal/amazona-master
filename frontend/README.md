@@ -69,6 +69,10 @@ Day-04:
     2. display items list
     3. create action column
 Day-05:
+17. Complete Cart Screen
+    1. click handler for inc/dec item
+    2. click handler for remove item
+    3. click handler for checkout
 Day-06:
 Day-07:
 Day-08:
