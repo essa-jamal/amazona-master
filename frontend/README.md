@@ -1,7 +1,7 @@
 # MERN AMAZONA
 
 Lessons:
-
+Day-01:
 1. Introduction
 2. Install tools
 3. Create React App
@@ -11,6 +11,7 @@ Lessons:
    2. add product images
    3. render products
    4. style products
+Day-02:
 6. Add page routing
    1. npm i react-router-dom
    2. create route for home screen
@@ -38,6 +39,7 @@ Lessons:
    1. define reducer
    2. update fetch data
    3. get state from usReducer
+Day-03:
 10. Add bootstrap UI Framework
     1. npm install react-bootstrap bootstrap
     2. update App.js
@@ -53,8 +55,19 @@ Lessons:
     2. use spinner component
     3. create message component
     4. create utils.js to define getError fuction
+Day-04:
 14. Create React Context For Add Item To Cart
     1. Create React Context
     2. define reducer
     3. create store provider
     4. implement add to cart button click handler
+15. Complete Add To Cart
+    1. check exist item in the cart
+    2. check count in stock in backend
+Day-05:
+Day-06:
+Day-07:
+Day-08:
+Day-09:
+Day-10:
+Day-11:
