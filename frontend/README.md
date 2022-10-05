@@ -106,5 +106,9 @@ Day-08:
     2. handle save shipping address
     3. add checkout wizard bar
 Day-09:
+25. Create Sign Up Screen
+    1. create input forms
+    2. handle submit
+    3. create backend api
 Day-10:
 Day-11:
