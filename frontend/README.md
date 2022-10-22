@@ -218,8 +218,12 @@ Day-21
     2. handle click action
     3. implement backen api for delete
 Day-22
-52. Review Orders
+52. Review Products
     1. create submit review form
     2. handle submit
     3. implement backend api for review
-    
+Day-23
+53. Upload multiple Images
+    1. add images to product model
+    2. get images in edit screen
+    3. show images in product screen
