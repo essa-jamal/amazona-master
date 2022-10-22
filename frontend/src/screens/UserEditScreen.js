@@ -126,6 +126,7 @@ export default function UserEditScreen() {
             id="isAdmin"
             label="isAdmin"
             checked={isAdmin}
+            disabled={userInfo._id===userId}
             onChange={(e) => setIsAdmin(e.target.checked)}
           />
 
