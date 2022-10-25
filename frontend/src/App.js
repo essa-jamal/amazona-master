@@ -21,7 +21,7 @@ import OrderScreen from "./screens/OrderScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import Button from "react-bootstrap/Button";
-import { getError } from "./utils";
+import { getError, toArabicNumber } from "./utils";
 import axios from "axios";
 import SearchBox from "./components/SearchBox";
 import SearchScreen from "./screens/SearchScreen";
@@ -32,22 +32,28 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
-import UserEditScreen from './screens/UserEditScreen';
+import UserEditScreen from "./screens/UserEditScreen";
+import Form from "react-bootstrap/Form";
+import translator from "./translator";
+import data from "./data";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
-
+  const { cart, userInfo, lang } = state;
+  const languages = data.languages;
   const signoutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
     localStorage.removeItem("shippingAddress");
+    //localStorage.removeItem("cartItems");
+
     localStorage.removeItem("paymentMethod");
     window.location.href = "/signin";
   };
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
+  const frontEnd = translator.home.frontEnd;
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -57,8 +63,9 @@ function App() {
         toast.error(getError(err));
       }
     };
+    //console.log('language =>',lang)
     fetchCategories();
-  }, []);
+  }, [lang]);
   return (
     <BrowserRouter>
       <div
@@ -81,27 +88,37 @@ function App() {
               </Button>
 
               <LinkContainer to="/">
-                <Navbar.Brand>BazarShow</Navbar.Brand>
+                <Navbar.Brand>{frontEnd.BazarShow[lang]}</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <SearchBox />
+
                 <Nav className="me-auto  w-100  justify-content-end">
                   <Link to="/cart" className="nav-link">
-                    Cart
+                    {frontEnd.Cart[lang]}
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
-                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                        {languages[lang].number === "English"
+                          ? cart.cartItems.reduce((a, c) => a + c.quantity, 0)
+                          : toArabicNumber(
+                              cart.cartItems.reduce((a, c) => a + c.quantity, 0)
+                            )}
                       </Badge>
                     )}
                   </Link>
+
                   {userInfo ? (
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
-                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          {frontEnd.UserProfile[lang]}
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
-                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          {frontEnd.OrderHistory[lang]}
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
@@ -109,45 +126,74 @@ function App() {
                         to="#signout"
                         onClick={signoutHandler}
                       >
-                        Sign Out
+                        {frontEnd.SignOut[lang]}
                       </Link>
                     </NavDropdown>
                   ) : (
                     <Link className="nav-link" to="/signin">
-                      Sign In
+                      {frontEnd.SignIn[lang]}
                     </Link>
                   )}
                   {userInfo && userInfo.isAdmin && (
-                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                    <NavDropdown
+                      title={frontEnd.Admin[lang]}
+                      id="admin-nav-dropdown"
+                    >
                       <LinkContainer to="/admin/dashboard">
-                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          {frontEnd.Dashboard[lang]}
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/products">
-                        <NavDropdown.Item>Products</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          {frontEnd.Products[lang]}
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/orders">
-                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          {frontEnd.Orders[lang]}
+                        </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
-                        <NavDropdown.Item>Users</NavDropdown.Item>
+                        <NavDropdown.Item>
+                          {frontEnd.Users[lang]}
+                        </NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}
                 </Nav>
               </Navbar.Collapse>
             </Container>
+
+            <Form.Select
+              value={lang}
+              className="lang"
+              onChange={(e) =>
+                ctxDispatch({ type: "ADD_LANG", payload: e.target.value })
+              }
+            >
+              {languages.map((langData) => (
+                <option key={langData.location} value={langData.location}>
+                  {langData.name}
+                </option>
+              ))}
+            </Form.Select>
           </Navbar>
         </header>
         <div
           className={
             sidebarIsOpen
-              ? "active-nav side-navbar d-flex justify-content-between flex-wrap flex-column"
-              : "side-navbar d-flex justify-content-between flex-wrap flex-column"
+              ? `active-nav side-navbar d-flex justify-content-between flex-wrap flex-column ${
+                  " " + languages[lang].direction + " "
+                }`
+              : `side-navbar d-flex justify-content-between flex-wrap flex-column ${
+                  " " + languages[lang].direction + " "
+                }`
           }
         >
           <Nav className="flex-column text-white w-100 p-2">
             <Nav.Item>
-              <strong>Categories</strong>
+              <strong>{frontEnd.Categories[lang]}</strong>
             </Nav.Item>
             {categories.map((category) => (
               <Nav.Item key={category}>
@@ -161,7 +207,7 @@ function App() {
             ))}
           </Nav>
         </div>
-        <main>
+        <main className={" " + languages[lang].direction + " "}>
           <Container className="mt-3">
             <Routes>
               <Route path="/product/:slug" element={<ProductScreen />} />
@@ -240,7 +286,7 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
- <Route
+              <Route
                 path="/admin/user/:id"
                 element={
                   <AdminRoute>

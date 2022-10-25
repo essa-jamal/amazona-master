@@ -6,6 +6,10 @@ const initialState = {
   userInfo: localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null,
+  lang: localStorage.getItem('lang')
+  ? JSON.parse(localStorage.getItem('lang'))
+  : 0,
+
 
   cart: {
   shippingAddress: localStorage.getItem('shippingAddress')
@@ -21,6 +25,10 @@ const initialState = {
 };
 function reducer(state, action) {
   switch (action.type) {
+    case 'ADD_LANG':
+        localStorage.setItem('lang', JSON.stringify(action.payload));
+        return { ...state, lang: action.payload};
+    
     case 'CART_ADD_ITEM':
       // add to cart
       const newItem = action.payload;

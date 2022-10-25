@@ -227,3 +227,11 @@ Day-23
     1. add images to product model
     2. get images in edit screen
     3. show images in product screen
+Day-24
+54. Support Multiple Language
+    1. create languages Array contains Language Object
+    2. create Translator Object contains pages Object home, search, cart, customer, Admin pages
+    3. add frontend and backend, and err 
+    4. apply rtl direction 
+    5. store Language to context store 
+    6. translate frontend data to Home including app and home and category

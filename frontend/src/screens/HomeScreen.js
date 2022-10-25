@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import axios from "axios";
 import logger from "use-reducer-logger";
 import Row from "react-bootstrap/Row";
@@ -7,6 +7,8 @@ import Product from "../components/Product";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import translator from "../translator";
+import { Store } from "../Store";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -21,12 +23,17 @@ const reducer = (state, action) => {
   }
 };
 
-function HomeScreen() {
+function HomeScreen( props) {
   const [{ loading, error, products }, dispatch] = useReducer(logger(reducer), {
     products: [],
     loading: true,
     error: "",
   });
+  const { state } = useContext(Store);
+  const { lang } = state;
+
+  
+
   // const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -45,9 +52,9 @@ function HomeScreen() {
   return (
     <div>
       <Helmet>
-        <title>BazarShow</title>
+        <title>{translator.home.frontEnd.BazarShow[lang]}</title>
       </Helmet>
-      <h1>Featured Products</h1>
+      <h1>{translator.home.frontEnd.FeaturedProducts[lang]}</h1>
       <div className="products">
         {loading ? (
            <LoadingBox />

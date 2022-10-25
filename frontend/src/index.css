@@ -85,3 +85,17 @@ main {
 button.thumbnail {
   padding: 0;
 }
+.lang
+{
+  background-color: #252525;
+  width: 7rem;
+  color: gray;
+  border: none;
+  
+}
+.lang:active{
+  border-color: #252525;
+}
+.rtl{
+  direction: rtl !important ;
+}
