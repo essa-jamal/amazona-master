@@ -7,6 +7,8 @@ const data = {
       description:'زمانی کوردی',
       logo:'',
       number:'Arabic',
+      available:true,
+      disabled:false,
       seq:10,
     },
     {
@@ -16,6 +18,9 @@ const data = {
       description:'لغة العربیة',
       logo:'',
       number:'Arabic',
+      available:true,
+      disabled:false,
+      default:false,
       seq:15
     },
     {
@@ -25,7 +30,10 @@ const data = {
       description:'English Language',
       logo:'',
       number:'English',
-      seq:20
+      available:true,
+      disabled:false,
+      default:true,
+      seq:20,
     },
     {
       name: "türk",
@@ -34,6 +42,9 @@ const data = {
       description:'türk dili',
       logo:'',
       number:'English',
+      available:true,
+      disabled:false,
+      default:false,
       seq:25
     },
     {
@@ -43,7 +54,34 @@ const data = {
       description:'زبان فارسی',
       logo:'',
       number:'Arabic',
+      available:true,
+      disabled:false,
+      default:false,
       seq:35
+    },
+    {
+      name: "française",
+      location: 5,
+      direction: "ltr",
+      description:'Langue française',
+      logo:'',
+      number:'English',
+      available:true,
+      disabled:false,
+      default:false,
+      seq:40
+    },
+    {
+      name: "deutsche",
+      location: 6,
+      direction: "ltr",
+      description:'deutsche Sprache',
+      logo:'',
+      number:'English',
+      available:true,
+      disabled:false,
+      default:false,
+      seq:45
     },
   ],
   products: [

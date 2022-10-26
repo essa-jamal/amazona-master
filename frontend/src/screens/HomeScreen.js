@@ -30,8 +30,8 @@ function HomeScreen( props) {
     error: "",
   });
   const { state } = useContext(Store);
-  const { lang } = state;
-
+  const { lang,defLang } = state;
+const frontEnd=translator.home.frontEnd;
   
 
   // const [products, setProducts] = useState([]);
@@ -52,9 +52,11 @@ function HomeScreen( props) {
   return (
     <div>
       <Helmet>
-        <title>{translator.home.frontEnd.BazarShow[lang]}</title>
+        <title>{frontEnd.BazarShow[lang] || frontEnd.BazarShow[defLang]}
+        
+        </title>
       </Helmet>
-      <h1>{translator.home.frontEnd.FeaturedProducts[lang]}</h1>
+      <h1>{frontEnd.FeaturedProducts[lang] || frontEnd.FeaturedProducts[defLang]}</h1>
       <div className="products">
         {loading ? (
            <LoadingBox />

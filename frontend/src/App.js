@@ -39,8 +39,8 @@ import data from "./data";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo, lang } = state;
-  const languages = data.languages;
+  const { cart, userInfo, lang,defLang } = state;
+  const languages = data.languages.filter(x=>x.available);
   const signoutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
@@ -55,6 +55,12 @@ function App() {
 
   const frontEnd = translator.home.frontEnd;
   useEffect(() => {
+const fetchDefaultLanguage= ()=>{
+  const defaulLang=languages.find(x=>x.default).location
+
+  ctxDispatch({ type: "ADD_DEFAULT_LANG", payload:defaulLang  })
+
+}
     const fetchCategories = async () => {
       try {
         const { data } = await axios.get(`/api/products/categories`);
@@ -63,9 +69,10 @@ function App() {
         toast.error(getError(err));
       }
     };
-    //console.log('language =>',lang)
+    
     fetchCategories();
-  }, [lang]);
+    fetchDefaultLanguage()
+  }, [ctxDispatch, lang, languages]);
   return (
     <BrowserRouter>
       <div
@@ -88,7 +95,7 @@ function App() {
               </Button>
 
               <LinkContainer to="/">
-                <Navbar.Brand>{frontEnd.BazarShow[lang]}</Navbar.Brand>
+                <Navbar.Brand>{frontEnd.BazarShow[lang] || frontEnd.BazarShow[defLang]}</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -96,7 +103,7 @@ function App() {
 
                 <Nav className="me-auto  w-100  justify-content-end">
                   <Link to="/cart" className="nav-link">
-                    {frontEnd.Cart[lang]}
+                    {frontEnd.Cart[lang] || frontEnd.Cart[defLang]}
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
                         {languages[lang].number === "English"
@@ -112,12 +119,12 @@ function App() {
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
                         <NavDropdown.Item>
-                          {frontEnd.UserProfile[lang]}
+                          {frontEnd.UserProfile[lang] || frontEnd.UserProfile[defLang]}
                         </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
                         <NavDropdown.Item>
-                          {frontEnd.OrderHistory[lang]}
+                          {frontEnd.OrderHistory[lang] || frontEnd.OrderHistory[defLang]}
                         </NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
@@ -126,37 +133,37 @@ function App() {
                         to="#signout"
                         onClick={signoutHandler}
                       >
-                        {frontEnd.SignOut[lang]}
+                        {frontEnd.SignOut[lang] || frontEnd.SignOut[defLang]}
                       </Link>
                     </NavDropdown>
                   ) : (
                     <Link className="nav-link" to="/signin">
-                      {frontEnd.SignIn[lang]}
+                      {frontEnd.SignIn[lang] || frontEnd.SignIn[defLang]}
                     </Link>
                   )}
                   {userInfo && userInfo.isAdmin && (
                     <NavDropdown
-                      title={frontEnd.Admin[lang]}
+                      title={frontEnd.Admin[lang] || frontEnd.Admin[defLang]}
                       id="admin-nav-dropdown"
                     >
                       <LinkContainer to="/admin/dashboard">
                         <NavDropdown.Item>
-                          {frontEnd.Dashboard[lang]}
+                          {frontEnd.Dashboard[lang]  || frontEnd.Dashboard[defLang]}
                         </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/products">
                         <NavDropdown.Item>
-                          {frontEnd.Products[lang]}
+                          {frontEnd.Products[lang]  || frontEnd.Products[defLang]}
                         </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/orders">
                         <NavDropdown.Item>
-                          {frontEnd.Orders[lang]}
+                          {frontEnd.Orders[lang]  || frontEnd.Orders[defLang]}
                         </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
                         <NavDropdown.Item>
-                          {frontEnd.Users[lang]}
+                          {frontEnd.Users[lang]  || frontEnd.Users[defLang]}
                         </NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
@@ -173,7 +180,7 @@ function App() {
               }
             >
               {languages.map((langData) => (
-                <option key={langData.location} value={langData.location}>
+                <option disabled={langData.disabled} key={langData.location} value={langData.location}>
                   {langData.name}
                 </option>
               ))}
@@ -193,7 +200,7 @@ function App() {
         >
           <Nav className="flex-column text-white w-100 p-2">
             <Nav.Item>
-              <strong>{frontEnd.Categories[lang]}</strong>
+              <strong>{frontEnd.Categories[lang]  || frontEnd.Categories[defLang]}</strong>
             </Nav.Item>
             {categories.map((category) => (
               <Nav.Item key={category}>

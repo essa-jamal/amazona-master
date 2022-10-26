@@ -9,18 +9,22 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import data from "../data";
+import translator from "../translator";
 
 export default function CartScreen() {
   const navigate = useNavigate();
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
-    cart: { cartItems },
+    cart: { cartItems },lang,defLang
   } = state;
+  const frontEnd = translator.cart.frontEnd
+  
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
+      window.alert(`${frontEnd.SorryProductisoutofstock[lang] || frontEnd.SorryProductisoutofstock[defLang]}`);
       return;
     }
     ctxDispatch({
@@ -39,14 +43,14 @@ export default function CartScreen() {
   return (
     <div>
       <Helmet>
-        <title>Shopping Cart</title>
+        <title>{frontEnd.ShoppingCart[lang] || frontEnd.ShoppingCart[defLang] || 'Shopping Cart'}</title>
       </Helmet>
-      <h1>Shopping Cart</h1>
+      <h1>{frontEnd.ShoppingCart[lang] || frontEnd.ShoppingCart[defLang] || 'Shopping Cart'}</h1>
       <Row>
         <Col md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
-              Cart is empty. <Link to="/">Go Shopping</Link>
+             {frontEnd.Cartisempty[lang] || frontEnd.Cartisempty[defLang] || 'Cart is empty.' }<Link to="/">{frontEnd.GoShopping[lang] || frontEnd.GoShopping[defLang] || 'Go Shopping'}</Link>
             </MessageBox>
           ) : (
             <ListGroup>
@@ -102,8 +106,8 @@ export default function CartScreen() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>
-                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
-                    items) : $
+                   {frontEnd.Subtotal[lang] || frontEnd.Subtotal[defLang] || 'Subtotal'} ({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
+                   {frontEnd.items[lang] || frontEnd.items[defLang] || 'items' }) : $
                     {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
                   </h3>
                 </ListGroup.Item>
@@ -115,7 +119,7 @@ export default function CartScreen() {
                       onClick={checkoutHandler}
                       disabled={cartItems.length === 0}
                     >
-                      Proceed to Checkout
+                      {frontEnd.ProceedtoCheckout[lang] || frontEnd.ProceedtoCheckout[defLang] || 'Proceed to Checkout'}
                     </Button>
                   </div>
                 </ListGroup.Item>

@@ -235,3 +235,4 @@ Day-24
     4. apply rtl direction 
     5. store Language to context store 
     6. translate frontend data to Home including app and home and category
+    7. add translation to Cart Screen
