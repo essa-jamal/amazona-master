@@ -9,7 +9,6 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import data from "../data";
 import translator from "../translator";
 
 export default function CartScreen() {
@@ -24,7 +23,7 @@ export default function CartScreen() {
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
-      window.alert(`${frontEnd.SorryProductisoutofstock[lang] || frontEnd.SorryProductisoutofstock[defLang]}`);
+      window.alert(`${frontEnd.SorryProductisoutofstock[lang] || frontEnd.SorryProductisoutofstock[defLang] || 'error'}`);
       return;
     }
     ctxDispatch({

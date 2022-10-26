@@ -1,5 +1,13 @@
+import { useContext } from "react";
+import { Store } from "../Store";
+import translator from "../translator";
+
 function Rating(props) {
-    const { rating, numReviews, caption } = props;
+  const { state} = useContext(Store);
+  const { lang,defLang} = state;
+  
+  
+  const { rating, numReviews, caption } = props;
     return (
       <div className="rating">
         <span>
@@ -60,7 +68,7 @@ function Rating(props) {
         {caption ? (
         <span>{caption}</span>
       ) : (
-        <span>{' ' + numReviews + ' reviews'}</span>
+        <span>{' ' + numReviews +''+ translator.product.frontEnd.reviews[lang]||translator.product.frontEnd.reviews[defLang] ||' reviews'}</span>
       )}
       </div>
     );

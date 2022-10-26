@@ -1,3 +1,5 @@
+import data from "./data";
+
 export const getError = (error) => {
     return error.response && error.response.data.message
       ? error.response.data.message
@@ -5,13 +7,39 @@ export const getError = (error) => {
   };
 
   export const toArabicNumber = (n) => {
-    console.log('nnnnnn =>',n)
+    console.log('nnnnnn =>',n,)
     const txt=n+''
     const cast=['.','١','٢','٣','٤','٥','٦','٧','٨','٩']
     let result=''
+    console.log('nnnnnn =>',txt[txt.length-1],)
     for(let i=0;i<txt.length; i++){
       
+      if(i ===txt.length-1 && txt[txt.length-1]==='0'){
+        result= '.'+result 
+        console.log('txt[txt.length-1]',txt[1])
+        continue
+      }
+      
+      if(txt[i]===' '){
+        result +=' '
+        continue
+      }
+      if(txt[i]==='-'){
+        result +='-'
+        continue
+      }
+      if(txt[i]==='.'){
+        result +='.'
+        continue
+      }
      result +=cast[Number(txt[i]) ]
     }
     return result;
+  }
+  export const castNumber = (n,l,s='') => {
+    const languages= data.languages.filter(x=>x.available);
+    
+    return s==='$'?
+    languages[l].number === "English"?n +'$':toArabicNumber(n) +' دولار':
+    languages[l].number === "English"?n :toArabicNumber(n)
   }

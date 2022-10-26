@@ -1,8 +1,8 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { getError } from '../utils';
+import { castNumber, getError } from '../utils';
 import { Helmet } from 'react-helmet-async';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,6 +12,8 @@ import MessageBox from '../components/MessageBox';
 import Button from 'react-bootstrap/Button';
 import Product from '../components/Product';
 import LinkContainer from 'react-router-bootstrap/LinkContainer';
+import { Store } from '../Store';
+import translator from '../translator';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -36,7 +38,7 @@ const reducer = (state, action) => {
 
 const prices = [
   {
-    name: '$1 to $50',
+    name: '1$ to $50',
     value: '1-50',
   },
   {
@@ -87,7 +89,10 @@ export default function SearchScreen() {
       loading: true,
       error: '',
     });
-
+    const { state } = useContext(Store);
+    const {  lang,defLang } = state;
+    const frontEnd=translator.search.frontEnd
+    
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -130,11 +135,11 @@ export default function SearchScreen() {
   return (
     <div>
       <Helmet>
-        <title>Search Products</title>
+        <title>{frontEnd.searchproducts[lang]||frontEnd.searchproducts[defLang]||'Search Products'}</title>
       </Helmet>
       <Row>
         <Col md={3}>
-          <h3>Department</h3>
+          <h3>{frontEnd.Department[lang]||frontEnd.Department[defLang]||'Department'}</h3>
           <div>
             <ul>
               <li>
@@ -142,7 +147,7 @@ export default function SearchScreen() {
                   className={'all' === category ? 'text-bold' : ''}
                   to={getFilterUrl({ category: 'all' })}
                 >
-                  Any
+                  {frontEnd.Any[lang]||frontEnd.Any[defLang]||'Any'}
                 </Link>
               </li>
               {categories.map((c) => (
@@ -158,14 +163,14 @@ export default function SearchScreen() {
             </ul>
           </div>
           <div>
-            <h3>Price</h3>
+            <h3>{frontEnd.Price[lang]||frontEnd.Price[defLang]||'Price'}</h3>
             <ul>
               <li>
                 <Link
                   className={'all' === price ? 'text-bold' : ''}
                   to={getFilterUrl({ price: 'all' })}
                 >
-                  Any
+                  {frontEnd.Any[lang]||frontEnd.Any[defLang]||'Any'}
                 </Link>
               </li>
               {prices.map((p) => (
@@ -181,7 +186,7 @@ export default function SearchScreen() {
             </ul>
           </div>
           <div>
-            <h3>Avg. Customer Review</h3>
+            <h3>{frontEnd.AvgCustomerReview[lang]||frontEnd.AvgCustomerReview[defLang]||'Avg. Customer Review'}</h3>
             <ul>
               {ratings.map((r) => (
                 <li key={r.name}>
@@ -233,22 +238,22 @@ export default function SearchScreen() {
                   </div>
                 </Col>
                 <Col className="text-end">
-                  Sort by{' '}
+                  {frontEnd.Sortby[lang]||frontEnd.Sortby[defLang]||'Sort by'}{' '}
                   <select
                     value={order}
                     onChange={(e) => {
                       navigate(getFilterUrl({ order: e.target.value }));
                     }}
                   >
-                    <option value="newest">Newest Arrivals</option>
-                    <option value="lowest">Price: Low to High</option>
-                    <option value="highest">Price: High to Low</option>
-                    <option value="toprated">Avg. Customer Reviews</option>
+                    <option value="newest">{frontEnd.NewestArrivals[lang]||frontEnd.NewestArrivals[defLang]||'Newest Arrivals'}</option>
+                    <option value="lowest">{frontEnd.PriceLowtoHigh[lang]||frontEnd.PriceLowtoHigh[defLang]||'Price: Low to High'}</option>
+                    <option value="highest">{frontEnd.PriceHightoLow[lang]||frontEnd.PriceHightoLow[defLang]||'Price: High to Low'}</option>
+                    <option value="toprated">{frontEnd.AvgCustomerReviews[lang]||frontEnd.AvgCustomerReviews[defLang]||'Avg. Customer Reviews'}</option>
                   </select>
                 </Col>
               </Row>
               {products.length === 0 && (
-                <MessageBox>No Product Found</MessageBox>
+                <MessageBox>{frontEnd.NoProductFound[lang]||frontEnd.NoProductFound[defLang]||'No Product Found'}</MessageBox>
               )}
 
               <Row>

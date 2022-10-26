@@ -41,6 +41,7 @@ function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo, lang,defLang } = state;
   const languages = data.languages.filter(x=>x.available);
+  
   const signoutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
@@ -55,12 +56,6 @@ function App() {
 
   const frontEnd = translator.home.frontEnd;
   useEffect(() => {
-const fetchDefaultLanguage= ()=>{
-  const defaulLang=languages.find(x=>x.default).location
-
-  ctxDispatch({ type: "ADD_DEFAULT_LANG", payload:defaulLang  })
-
-}
     const fetchCategories = async () => {
       try {
         const { data } = await axios.get(`/api/products/categories`);
@@ -69,10 +64,9 @@ const fetchDefaultLanguage= ()=>{
         toast.error(getError(err));
       }
     };
-    
+    //console.log('language =>',lang)
     fetchCategories();
-    fetchDefaultLanguage()
-  }, [ctxDispatch, lang, languages]);
+  }, [lang]);
   return (
     <BrowserRouter>
       <div
@@ -175,9 +169,12 @@ const fetchDefaultLanguage= ()=>{
             <Form.Select
               value={lang}
               className="lang"
-              onChange={(e) =>
+              onChange={(e) =>{
                 ctxDispatch({ type: "ADD_LANG", payload: e.target.value })
-              }
+                ctxDispatch({ type: "ADD_DEFAULT_LANG", payload: languages.find(x=> x.default).location })
+                
+
+              }}
             >
               {languages.map((langData) => (
                 <option disabled={langData.disabled} key={langData.location} value={langData.location}>
@@ -306,7 +303,7 @@ const fetchDefaultLanguage= ()=>{
           </Container>
         </main>
         <footer>
-          <div className="text-center">All rights reserved</div>
+          <div className="text-center">{frontEnd.Allrightsreserved[lang]||frontEnd.Allrightsreserved[defLang]||'All rights reserved'}</div>
         </footer>
       </div>
     </BrowserRouter>

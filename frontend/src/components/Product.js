@@ -5,6 +5,8 @@ import Rating from './Rating';
 import axios from 'axios';
 import { useContext } from 'react';
 import { Store } from '../Store';
+import translator from '../translator';
+import { castNumber } from '../utils';
 
 function Product(props) {
   const { product } = props;
@@ -12,14 +14,16 @@ function Product(props) {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
+    lang,defLang
   } = state;
-
+const frontEnd=translator.product.frontEnd
   const addToCartHandler = async (item) => {
     const existItem = cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
+      window.alert(frontEnd.SorryProductisoutofstock[lang] || 
+        frontEnd.SorryProductisoutofstock[defLang] || 'Sorry. Product is out of stock');
       return;
     }
     ctxDispatch({
@@ -38,13 +42,13 @@ function Product(props) {
           <Card.Title>{product.name}</Card.Title>
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
-        <Card.Text>${product.price}</Card.Text>
+        <Card.Text>{castNumber( product.price,lang,'$')}</Card.Text>
         {product.countInStock === 0 ? (
           <Button variant="light" disabled>
-            Out of stock
+            {frontEnd.Outofstock[lang] || frontEnd.Outofstock[defLang] || 'Out of stock'}
           </Button>
         ) : (
-          <Button onClick={() => addToCartHandler(product)}>Add to cart</Button>
+          <Button onClick={() => addToCartHandler(product)}>{frontEnd.AddtoCart[lang] || frontEnd.AddtoCart[defLang]|| 'Add to cart'}</Button>
         )}      </Card.Body>
     </Card>
   );

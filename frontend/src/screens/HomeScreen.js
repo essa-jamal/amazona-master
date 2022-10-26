@@ -48,7 +48,7 @@ const frontEnd=translator.home.frontEnd;
       // setProducts(result.data);
     };
     fetchData();
-  }, []);
+  }, [lang]);
   return (
     <div>
       <Helmet>

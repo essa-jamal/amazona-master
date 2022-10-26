@@ -12,10 +12,11 @@ import Rating from "../components/Rating";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { getError } from "../utils";
+import { castNumber, getError } from "../utils";
 import { Store } from "../Store";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { toast } from 'react-toastify';
+import translator from "../translator";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -66,13 +67,14 @@ function ProductScreen() {
     fetchData();
   }, [slug]);
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
+  const { cart, userInfo,lang,defLang } = state;
+  const frontEnd=translator.product.frontEnd;
   const addToCartHandler = async () => {
     const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
     if (data.countInStock < quantity) {
-      window.alert("Sorry. Product is out of stock");
+      window.alert(frontEnd.SorryProductisoutofstock[lang] || frontEnd.SorryProductisoutofstock[defLang]|| "Sorry. Product is out of stock");
       return;
     }
     ctxDispatch({
@@ -86,7 +88,7 @@ function ProductScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!comment || !rating) {
-      toast.error('Please enter comment and rating');
+      toast.error(frontEnd.Pleaseentercommentandrating[lang]|| frontEnd.Pleaseentercommentandrating[defLang]|| 'Please enter comment and rating');
       return;
     }
     try {
@@ -101,7 +103,7 @@ function ProductScreen() {
       dispatch({
         type: 'CREATE_SUCCESS',
       });
-      toast.success('Review submitted successfully');
+      toast.success(frontEnd.Reviewsubmittedsuccessfully[lang]||frontEnd.Reviewsubmittedsuccessfully[defLang]|| 'Review submitted successfully');
       product.reviews.unshift(data.review);
       product.numReviews = data.numReviews;
       product.rating = data.rating;
@@ -144,7 +146,7 @@ function ProductScreen() {
                 numReviews={product.numReviews}
               ></Rating>
             </ListGroup.Item>
-            <ListGroup.Item>Pirce : ${product.price}</ListGroup.Item>
+            <ListGroup.Item>{frontEnd.Price[lang]||frontEnd.price[defLang]|| 'Pirce'} : {castNumber( product.price,lang,'$')}</ListGroup.Item>
             <ListGroup.Item>
               <Row xs={1} md={2} className="g-2">
                 {[product.image, ...product.images].map((x) => (
@@ -164,7 +166,7 @@ function ProductScreen() {
               </Row>
             </ListGroup.Item>
             <ListGroup.Item>
-              Description:
+            {frontEnd.Description[lang] ||frontEnd.Description[defLang] ||'Description'}:
               <p>{product.description}</p>
             </ListGroup.Item>
           </ListGroup>
@@ -175,18 +177,18 @@ function ProductScreen() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Price:</Col>
-                    <Col>${product.price}</Col>
+                    <Col>{frontEnd.Price[lang]||frontEnd.Price[defLang]|| 'Price'}:</Col>
+                    <Col>{castNumber( product.price,lang,'$')}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Status:</Col>
+                    <Col>{frontEnd.Status[lang]||frontEnd.Status[defLang]|| 'Status'}:</Col>
                     <Col>
                       {product.countInStock > 0 ? (
-                        <Badge bg="success">In Stock</Badge>
+                        <Badge bg="success">{frontEnd.InStock[lang]||frontEnd.InStock[defLang]|| 'In Stock'}</Badge>
                       ) : (
-                        <Badge bg="danger">Unavailable</Badge>
+                        <Badge bg="danger">{frontEnd.Unavailable[lang]||frontEnd.Unavailable[defLang]|| 'Unavailable'}</Badge>
                       )}
                     </Col>
                   </Row>
@@ -196,7 +198,7 @@ function ProductScreen() {
                   <ListGroup.Item>
                     <div className="d-grid">
                       <Button onClick={addToCartHandler} variant="primary">
-                        Add to Cart
+                        {frontEnd.AddtoCart[lang]|| frontEnd.AddtoCart[defLang]|| 'Add to Cart'}
                       </Button>
                     </div>
                   </ListGroup.Item>
@@ -207,10 +209,10 @@ function ProductScreen() {
         </Col>
       </Row>
       <div className="my-3">
-        <h2 ref={reviewsRef}>Reviews</h2>
+        <h2 ref={reviewsRef}>{frontEnd.Reviews[lang]||frontEnd.Reviews[defLang]|| 'Reviews'}</h2>
         <div className="mb-3">
           {product.reviews.length === 0 && (
-            <MessageBox>There is no review</MessageBox>
+            <MessageBox>{frontEnd.Thereisnoreview[lang]||frontEnd.Thereisnoreview[defLang]|| 'There is no review'}</MessageBox>
           )}
         </div>
         <ListGroup>
@@ -226,30 +228,30 @@ function ProductScreen() {
         <div className="my-3">
           {userInfo ? (
             <form onSubmit={submitHandler}>
-              <h2>Write a customer review</h2>
+              <h2>{frontEnd.Writeacustomerreview[lang]||frontEnd.Writeacustomerreview[defLang]|| 'Write a customer review'}</h2>
               <Form.Group className="mb-3" controlId="rating">
-                <Form.Label>Rating</Form.Label>
+                <Form.Label> {frontEnd.Rating[lang]||frontEnd.Rating[defLang]|| 'Rating'}</Form.Label>
                 <Form.Select
                   aria-label="Rating"
                   value={rating}
                   onChange={(e) => setRating(e.target.value)}
                 >
-                  <option value="">Select...</option>
-                  <option value="1">1- Poor</option>
-                  <option value="2">2- Fair</option>
-                  <option value="3">3- Good</option>
-                  <option value="4">4- Very good</option>
-                  <option value="5">5- Excelent</option>
+                  <option value="">{frontEnd.Select[lang] || frontEnd.Select[defLang]|| 'Select'}...</option>
+                  <option value="1">{castNumber('1- ',lang)+''+ frontEnd.Poor[lang]||frontEnd.poor[defLang]|| 'Poor'}</option>
+                  <option value="2">{castNumber('2- ',lang)+''+frontEnd.Fair[lang]||frontEnd.Fair[defLang] ||'Fair'}</option>
+                  <option value="3">{castNumber('3- ',lang)+''+frontEnd.Good[lang]||frontEnd.Good[defLang]|| 'Good'}</option>
+                  <option value="4">{castNumber('4- ',lang)+''+frontEnd.Verygood[lang]||frontEnd.Verygood[defLang] ||'Very good'}</option>
+                  <option value="5">{castNumber('5- ',lang)+''+frontEnd.Excellent[lang]||frontEnd.Excellent[defLang]||'Excelent'}</option>
                 </Form.Select>
               </Form.Group>
               <FloatingLabel
                 controlId="floatingTextarea"
-                label="Comments"
+                label={frontEnd.Comments[lang]||frontEnd.Comments[defLang]||"Comments"}
                 className="mb-3"
               >
                 <Form.Control
                   as="textarea"
-                  placeholder="Leave a comment here"
+                  placeholder={frontEnd.Leaveacommenthere[lang]||frontEnd.Leaveacommenthere[defLang]||"Leave a comment here"}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                 />
@@ -257,18 +259,18 @@ function ProductScreen() {
 
               <div className="mb-3">
                 <Button disabled={loadingCreateReview} type="submit">
-                  Submit
+                  {frontEnd.Submit[lang] ||frontEnd.Submit[defLang] || 'Submit'}
                 </Button>
                 {loadingCreateReview && <LoadingBox></LoadingBox>}
               </div>
             </form>
           ) : (
             <MessageBox>
-              Please{' '}
+              {frontEnd.Please[lang]||frontEnd.Please[defLang] ||'Please'}{' '}
               <Link to={`/signin?redirect=/product/${product.slug}`}>
-                Sign In
+                {frontEnd.SignIn[lang]||frontEnd.SignIn[defLang]||'Sign In'}
               </Link>{' '}
-              to write a review
+              {frontEnd.towriteareview[lang]||frontEnd.towriteareview[defLang] ||'to write a review'}
             </MessageBox>
           )}
         </div>
