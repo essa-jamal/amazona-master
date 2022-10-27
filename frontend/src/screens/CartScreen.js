@@ -10,6 +10,7 @@ import Card from "react-bootstrap/Card";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import translator from "../translator";
+import { castNumber } from "../utils";
 
 export default function CartScreen() {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ export default function CartScreen() {
                         disabled={item.quantity === 1}
                       >                        <i className="fas fa-minus-circle"></i>
                       </Button>{" "}
-                      <span>{item.quantity}</span>{" "}
+                      <span>{castNumber( item.quantity,lang)}</span>{" "}
                       <Button
                         variant="light"
                         onClick={() =>
@@ -84,7 +85,7 @@ export default function CartScreen() {
                         <i className="fas fa-plus-circle"></i>
                       </Button>
                     </Col>
-                    <Col md={3}>${item.price}</Col>
+                    <Col md={3}>{castNumber( item.price,lang,'$')}</Col>
                     <Col md={2}>
                     <Button
                         onClick={() => removeItemHandler(item)}
@@ -105,9 +106,9 @@ export default function CartScreen() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>
-                   {frontEnd.Subtotal[lang] || frontEnd.Subtotal[defLang] || 'Subtotal'} ({cartItems.reduce((a, c) => a + c.quantity, 0)}{" "}
-                   {frontEnd.items[lang] || frontEnd.items[defLang] || 'items' }) : $
-                    {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
+                   {frontEnd.Subtotal[lang] || frontEnd.Subtotal[defLang] || 'Subtotal'} ({castNumber( cartItems.reduce((a, c) => a + c.quantity, 0),lang)}{" "}
+                   {frontEnd.items[lang] || frontEnd.items[defLang] || 'items' }) : 
+                    {castNumber( cartItems.reduce((a, c) => a + c.price * c.quantity, 0),lang,'$')}
                   </h3>
                 </ListGroup.Item>
                 <ListGroup.Item>

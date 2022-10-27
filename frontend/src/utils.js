@@ -7,20 +7,12 @@ export const getError = (error) => {
   };
 
   export const toArabicNumber = (n) => {
-    console.log('nnnnnn =>',n,)
     const txt=n+''
-    const cast=['.','١','٢','٣','٤','٥','٦','٧','٨','٩']
+    const cast=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']
     let result=''
     console.log('nnnnnn =>',txt[txt.length-1],)
     for(let i=0;i<txt.length; i++){
-      
-      if(i ===txt.length-1 && txt[txt.length-1]==='0'){
-        result= '.'+result 
-        console.log('txt[txt.length-1]',txt[1])
-        continue
-      }
-      
-      if(txt[i]===' '){
+          if(txt[i]===' '){
         result +=' '
         continue
       }
@@ -28,10 +20,7 @@ export const getError = (error) => {
         result +='-'
         continue
       }
-      if(txt[i]==='.'){
-        result +='.'
-        continue
-      }
+      
      result +=cast[Number(txt[i]) ]
     }
     return result;
