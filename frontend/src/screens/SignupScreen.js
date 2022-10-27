@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import translator from '../translator';
 
 export default function SignupScreen() {
   const navigate = useNavigate();
@@ -21,11 +22,12 @@ export default function SignupScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { userInfo } = state;
+  const { userInfo,lang,defLang } = state;
+  const frontEnd=translator.Customer.frontEnd;
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error(frontEnd.Passwordsdonotmatch[lang]||frontEnd.Passwordsdonotmatch[defLang]|| 'Passwords do not match');
       return;
     }
     try {
@@ -51,17 +53,17 @@ export default function SignupScreen() {
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Sign Up</title>
+        <title>{frontEnd.SignUp[lang]||frontEnd.SignUp[defLang]|| 'Sign Up'}</title>
       </Helmet>
-      <h1 className="my-3">Sign Up</h1>
+      <h1 className="my-3">{frontEnd.SignUp[lang]||frontEnd.SignUp[defLang]|| 'Sign Up'}</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>{frontEnd.Name[lang]||frontEnd.Name[defLang]||'Name'}</Form.Label>
           <Form.Control onChange={(e) => setName(e.target.value)} required />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>{frontEnd.Email[lang]||frontEnd.Email[defLang]||'Email'}</Form.Label>
           <Form.Control
             type="email"
             required
@@ -69,14 +71,14 @@ export default function SignupScreen() {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>{frontEnd.Password[lang]||frontEnd.Password[defLang]|| 'Password'}</Form.Label>
           <Form.Control
             type="password"
             required
             onChange={(e) => setPassword(e.target.value)}
           />
           <Form.Group className="mb-3" controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
+            <Form.Label>{frontEnd.ConfirmPassword[lang]||frontEnd.ConfirmPassword[defLang]||'Confirm Password'}</Form.Label>
             <Form.Control
               type="password"
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -85,11 +87,11 @@ export default function SignupScreen() {
           </Form.Group>
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit">{frontEnd.SignUp[lang]||frontEnd.SignUp[defLang]|| 'Sign Up'}</Button>
         </div>
         <div className="mb-3">
-          Already have an account?{' '}
-          <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
+          {frontEnd.Alreadyhaveanaccount[lang]||frontEnd.Alreadyhaveanaccount[defLang]||'Already have an account'}{' '}
+          <Link to={`/signin?redirect=${redirect}`}>{frontEnd.SignIn[lang]||frontEnd.SignIn[defLang]||'Sign In'}</Link>
         </div>
       </Form>
     </Container>

@@ -8,6 +8,7 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import Axios from 'axios';
+import translator from '../translator';
 
 export default function SigninScreen() {
   const navigate = useNavigate();
@@ -19,7 +20,8 @@ export default function SigninScreen() {
   const [password, setPassword] = useState('');
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { userInfo } = state;
+  const { userInfo,lang,defLang } = state;
+  const frontEnd=translator.Customer.frontEnd;
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -43,24 +45,24 @@ export default function SigninScreen() {
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Sign In</title>
+        <title>{frontEnd.SignIn[lang]||frontEnd.SignIn[defLang]||'Sign In'}</title>
       </Helmet>
-      <h1 className="my-3">Sign In</h1>
+      <h1 className="my-3">{frontEnd.SignIn[lang]||frontEnd.SignIn[defLang]||'Sign In'}</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>{frontEnd.Email[lang]||frontEnd.Email[defLang]||'Email'}</Form.Label>
           <Form.Control type="email" required  onChange={(e) => setEmail(e.target.value) }/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="password" onChange={(e) => setPassword(e.target.value)}>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>{frontEnd.Password[lang]||frontEnd.Password[defLang]|| 'Password'}</Form.Label>
           <Form.Control type="password" required />
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Sign In</Button>
+          <Button type="submit">{frontEnd.SignIn[lang]||frontEnd.SignIn[defLang]||'Sign In'}</Button>
         </div>
         <div className="mb-3">
-          New customer?{' '}
-          <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+          {frontEnd.Newcustomer[lang]||frontEnd.Newcustomer[defLang]|| 'New customer'}?{' '}
+          <Link to={`/signup?redirect=${redirect}`}>{frontEnd.Createyouraccount[lang]||frontEnd.Createyouraccount[defLang] ||'Create your account'}</Link>
         </div>
       </Form>
     </Container>

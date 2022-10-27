@@ -219,7 +219,7 @@ export default function SearchScreen() {
               <Row className="justify-content-between mb-3">
                 <Col md={6}>
                   <div>
-                    {countProducts === 0 ? 'No' : countProducts} Results
+                    {countProducts === 0 ? 'No' : countProducts} {frontEnd.Results[lang]||frontEnd.Results[defLang]||'Results'}
                     {query !== 'all' && ' : ' + query}
                     {category !== 'all' && ' : ' + category}
                     {price !== 'all' && ' : Price ' + price}

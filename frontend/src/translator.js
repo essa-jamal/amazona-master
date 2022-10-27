@@ -67,7 +67,7 @@ const translator = {
       PriceHightoLow:['نرخ: بەرز بۆ نزم','السعر: من الأعلى إلى الأدنى','Price: High to Low','Fiyat: Yüksekten Düşüğe','قیمت: بالا به پایین','Prix: Haut à Bas','Preis: Hoch bis Niedrig'],
       AvgCustomerReviews:['چاوپێخشاندنەوەکانی کڕیار','متوسط آراء العملاء','Avg. Customer Reviews','Ort. Müşteri Yorumları','نظرات مشتری به طور متوسط','Commentaires moyens des clients','Durchschnittliche Kundenrezensionen',],
       NoProductFound:['هیچ بەرهەمێک نەدۆزرایەوە','لم يتم العثور على منتج','No Product Found','Ürün Bulunamadıلم يتم العثور على منتج','هیچ محصولی یافت نشد','Aucun produit trouvé','Kein Produkt gefunden',],
-      
+      Results:['ئەنجام','النتائج','Results','Sonuçlar','نتایج','Résultats','Ergebnisse',]
       
     },
     backEnd: {},
@@ -88,8 +88,19 @@ const translator = {
     backEnd: {},
     error: {},
   },
-  customer: {
-    frontEnd: {},
+  Customer: {
+    frontEnd: {
+      SignIn:['چوونەژوورەوە','تسجيل الدخول','Sign In','Oturum Aç','ورود به برنامه','Connexion','Anmelden'],
+      Email:['ئیمەیڵ','البريد الإلكتروني','Email','E-posta','پست الکترونیک','Messagerie électronique','E-Mail',],
+      Password:['پاسۆرد','كلمه مرور','Password','Parola','رمز عبور','Mot de passe','Passwort',],
+      Newcustomer:['کڕیاری نوێ','عميل جديد','New customer','Yeni müşteri','مشتری جدید','Nouveau client','Neukunde',],
+      Createyouraccount:['ئەژمێرەکەت دروست بکە','أنشئ حسابك','Create your account','Hesabınızı oluşturun','ایجاد حساب کاربری','Créez votre compte','Erstellen Sie Ihr Konto',],
+      Passwordsdonotmatch:['پاسۆردەکان ناگونجێن','كلمات المرور غير متطابقة','Passwords do not match','Şifreler eşleşmiyor','رمزهای عبور مطابقت نمی کنند','Les mots de passe ne correspondent pas','Kennwörter stimmen nicht überein',],
+      SignUp:['خۆ تۆمارکردن','التسجيل','Sign Up','Kaydol','ثبت نام','S’enregistrer','Anmelden',],
+      Alreadyhaveanaccount:['پێشتر ئەژمێرێت هەیە؟','لديك حساب بالفعل؟','Already have an account?','Zaten bir hesabınız var?','در حال حاضر یک حساب کاربری؟','Vous avez déjà un compte?','Sie haben bereits ein Konto?',],
+      Name:['ناو','الاسم','Name','Ad','نام','Nom','Name',],
+      ConfirmPassword:['پشتڕاستکردنەوەی پاسۆرد','تأكيد كلمة المرور','Confirm Password','Şifreyi Onayla','تایید رمز عبور','Confirmer le mot de passe','Passwort bestätigen',],
+    },
     backEnd: {},
     error: {},
   },
