@@ -67,7 +67,8 @@ const translator = {
       PriceHightoLow:['نرخ: بەرز بۆ نزم','السعر: من الأعلى إلى الأدنى','Price: High to Low','Fiyat: Yüksekten Düşüğe','قیمت: بالا به پایین','Prix: Haut à Bas','Preis: Hoch bis Niedrig'],
       AvgCustomerReviews:['چاوپێخشاندنەوەکانی کڕیار','متوسط آراء العملاء','Avg. Customer Reviews','Ort. Müşteri Yorumları','نظرات مشتری به طور متوسط','Commentaires moyens des clients','Durchschnittliche Kundenrezensionen',],
       NoProductFound:['هیچ بەرهەمێک نەدۆزرایەوە','لم يتم العثور على منتج','No Product Found','Ürün Bulunamadıلم يتم العثور على منتج','هیچ محصولی یافت نشد','Aucun produit trouvé','Kein Produkt gefunden',],
-      Results:['ئەنجام','النتائج','Results','Sonuçlar','نتایج','Résultats','Ergebnisse',]
+      Results:['ئەنجام','النتائج','Results','Sonuçlar','نتایج','Résultats','Ergebnisse',],
+      
       
     },
     backEnd: {},
@@ -103,6 +104,21 @@ const translator = {
     },
     backEnd: {},
     error: {},
+  },
+  Shipping:{
+    frontEnd:{
+      ShippingAddress:['ناونیشانی گەیاندن','عنوان الشحن','Shipping Address','Teslimat Adresi','آدرس حمل و نقل','Adresse de livraison','Lieferadresse',],
+      FullName:['ناوی تەواو','الاسم الكامل','Full Name','Tam İsim','نام کامل','Nom complet','Vollständiger Name',],
+      Address:['ناونیشان','عنوان','Address','Adres','آدرس','Adresse','Adresse',],
+      City:['شار','مدينة','City','Şehir','شهر','Ville','Stadt',],
+      PostalCode:['ژمارەی تەلەفۆن','رقم الهاتف','Phone Numer','Telefon numarası','شماره تلفن','Numéro de téléphone','Telefonnummer',],
+      Country:['وڵات','بلد','Country','Ülke','کشور','Pays','Land',],
+      Continue:['بەردەوامبە','استمر','Continue','Devam etmek','ادامه','Continuer','Fortsetzen'],
+      Shipping:['گەیاندن','شحن','Shipping','Nakliye','نقل','Livraison','Versand',],
+      Payment:['پارەدان','دفع','Payment','Ödeme','پرداخت','Paiement','Zahlung',],
+      PlaceOrder:['داواکرنی کڕین','تقديم الطلب','Place Order','Sipariş Ver','درخواست سفارش','Passer commande','Bestellung aufgeben',],
+      PaymentMethod:['شێوازی پارەدان','طريقة الدفع','Payment Method','','روش پرداخت','Mode de paiement','Zahlungsmethode',],
+    }
   },
   admin: {
     frontEnd: {},

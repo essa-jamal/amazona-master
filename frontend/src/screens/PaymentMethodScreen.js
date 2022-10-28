@@ -5,12 +5,14 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { Store } from '../Store';
+import translator from '../translator';
 
 export default function PaymentMethodScreen() {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     cart: { shippingAddress, paymentMethod },
+    lang,defLang
   } = state;
 
   const [paymentMethodName, setPaymentMethod] = useState(
@@ -33,9 +35,9 @@ export default function PaymentMethodScreen() {
       <CheckoutSteps step1 step2 step3></CheckoutSteps>
       <div className="container small-container">
         <Helmet>
-          <title>Payment Method</title>
+          <title>{translator.Shipping.frontEnd.PaymentMethod[lang]||translator.Shipping.frontEnd.PaymentMethod[defLang]|| 'Payment Method'}</title>
         </Helmet>
-        <h1 className="my-3">Payment Method</h1>
+        <h1 className="my-3">{translator.Shipping.frontEnd.PaymentMethod[lang]||translator.Shipping.frontEnd.PaymentMethod[defLang]|| 'Payment Method'}</h1>
         <Form onSubmit={submitHandler}>
           <div className="mb-3">
             <Form.Check
@@ -58,7 +60,9 @@ export default function PaymentMethodScreen() {
             />
           </div>
           <div className="mb-3">
-            <Button type="submit">Continue</Button>
+            <Button type="submit">
+            {translator.Shipping.frontEnd.Continue[lang]||translator.Shipping.frontEnd.Continue[defLang]||'Continue'}
+            </Button>
           </div>
         </Form>
       </div>

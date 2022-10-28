@@ -36,17 +36,17 @@ const reducer = (state, action) => {
   }
 };
 
-const prices = [
+const prices =(lang,defLang)=> [
   {
-    name: '1$ to $50',
+    name: `${castNumber(1,lang,'$') +' '+ translator.search.frontEnd.to[lang] +' '+ castNumber(50,lang,'$')  }` ,
     value: '1-50',
   },
   {
-    name: '$51 to $200',
+    name: `${castNumber(51,lang,'$') + translator.search.frontEnd.to[lang] + castNumber(200,lang,'$')  }` ,
     value: '51-200',
   },
   {
-    name: '$201 to $1000',
+    name: `${castNumber(1000,lang,'$') + translator.search.frontEnd.to[lang] + castNumber(201,lang,'$')  }` ,
     value: '201-1000',
   },
 ];
@@ -173,7 +173,7 @@ export default function SearchScreen() {
                   {frontEnd.Any[lang]||frontEnd.Any[defLang]||'Any'}
                 </Link>
               </li>
-              {prices.map((p) => (
+              {prices(lang,defLang).map((p) => (
                 <li key={p.value}>
                   <Link
                     to={getFilterUrl({ price: p.value })}
@@ -194,7 +194,7 @@ export default function SearchScreen() {
                     to={getFilterUrl({ rating: r.rating })}
                     className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
                   >
-                    <Rating caption={' & up'} rating={r.rating}></Rating>
+                    <Rating caption={frontEnd.up[lang]||frontEnd.up[defLang]|| ' & up'} rating={r.rating}></Rating>
                   </Link>
                 </li>
               ))}
@@ -203,7 +203,7 @@ export default function SearchScreen() {
                   to={getFilterUrl({ rating: 'all' })}
                   className={rating === 'all' ? 'text-bold' : ''}
                 >
-                  <Rating caption={' & up'} rating={0}></Rating>
+                  <Rating caption={frontEnd.up[lang]||frontEnd.up[defLang]|| ' & up'} rating={0}></Rating>
                 </Link>
               </li>
             </ul>

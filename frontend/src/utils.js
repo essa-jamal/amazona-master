@@ -30,5 +30,7 @@ export const getError = (error) => {
     
     return s==='$'?
     languages[l].number === "English"?n +'$':toArabicNumber(n) +' دولار':
+    s==='IQD'?
+    languages[l].number === "English"?n +'IQD':toArabicNumber(n) +' دینار':
     languages[l].number === "English"?n :toArabicNumber(n)
   }

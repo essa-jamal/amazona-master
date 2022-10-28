@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
+import translator from '../translator';
 
 export default function ShippingAddressScreen() {
   const navigate = useNavigate();
@@ -12,7 +13,9 @@ export default function ShippingAddressScreen() {
   const {
     userInfo,
     cart: { shippingAddress },
+    lang,defLang
   } = state;
+  const frontEnd=translator.Shipping.frontEnd;
   const [fullName, setFullName] = useState(shippingAddress.fullName || '');
   const [address, setAddress] = useState(shippingAddress.address || '');
   const [city, setCity] = useState(shippingAddress.city || '');
@@ -52,15 +55,15 @@ export default function ShippingAddressScreen() {
   return (
     <div>
       <Helmet>
-        <title>Shipping Address</title>
+        <title>{frontEnd.ShippingAddress[lang]||frontEnd.ShippingAddress[defLang]||'Shipping Address'}</title>
       </Helmet>
 
       <CheckoutSteps step1 step2></CheckoutSteps>
       <div className="container small-container">
-        <h1 className="my-3">Shipping Address</h1>
+        <h1 className="my-3">{frontEnd.ShippingAddress[lang]||frontEnd.ShippingAddress[defLang]||'Shipping Address'}</h1>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="fullName">
-            <Form.Label>Full Name</Form.Label>
+            <Form.Label>{frontEnd.FullName[lang]||frontEnd.FullName[defLang]|| 'Full Name'}</Form.Label>
             <Form.Control
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
@@ -68,7 +71,7 @@ export default function ShippingAddressScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="address">
-            <Form.Label>Address</Form.Label>
+            <Form.Label>{frontEnd.Address[lang]||frontEnd.Address[defLang]||'Address'}</Form.Label>
             <Form.Control
               value={address}
               onChange={(e) => setAddress(e.target.value)}
@@ -76,7 +79,7 @@ export default function ShippingAddressScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="city">
-            <Form.Label>City</Form.Label>
+            <Form.Label>{frontEnd.City[lang]||frontEnd.City[defLang]||'City'}</Form.Label>
             <Form.Control
               value={city}
               onChange={(e) => setCity(e.target.value)}
@@ -84,7 +87,7 @@ export default function ShippingAddressScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="postalCode">
-            <Form.Label>Postal Code</Form.Label>
+            <Form.Label>{frontEnd.PostalCode[lang]||frontEnd.PostalCode[defLang]||'Phone Number'}</Form.Label>
             <Form.Control
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
@@ -92,7 +95,7 @@ export default function ShippingAddressScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="country">
-            <Form.Label>Country</Form.Label>
+            <Form.Label>{frontEnd.Country[lang]||frontEnd.Country[defLang]||'Country'}</Form.Label>
             <Form.Control
               value={country}
               onChange={(e) => setCountry(e.target.value)}
@@ -101,7 +104,8 @@ export default function ShippingAddressScreen() {
           </Form.Group>
           <div className="mb-3">
             <Button variant="primary" type="submit">
-              Continue
+            {frontEnd.Continue[lang]||frontEnd.Continue[defLang]||'Continue'}
+              
             </Button>
           </div>
         </Form>
