@@ -117,7 +117,7 @@ const frontEnd=translator.Customer.frontEnd;
                 <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.isAdmin ? frontEnd.YES[lang]||frontEnd.YES[defLang]||'YES' :frontEnd.NO[lang]||frontEnd.NO[defLang]|| 'NO'}</td>
+                <td>{user.isAdmin ? frontEnd.YES[lang]||frontEnd.YES[defLang]||'YES' :frontEnd.No[lang]||frontEnd.No[defLang]|| 'NO'}</td>
                 <td>
                   <Button
                     type="button"

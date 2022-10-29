@@ -111,6 +111,7 @@ const translator = {
       Delete:['سڕینەوە','حذف','Delete','Silmek','حذف','Supprimer','Löschen',],
       ISADMIN:['بەڕێوەبەرە','هو المشرف','IS ADMIN','YÖNETİCİSİDİR','مدیر است','EST ADMIN','IST ADMIN',],
       YES:['بەڵێ','نعم','YES','Evet','بله','Oui','Ja',],
+      No:['نەخێر','لا','No','Hayır','نه','Non','Nein',],  
     },
     backEnd: {},
     error: {},
