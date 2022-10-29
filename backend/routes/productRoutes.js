@@ -41,6 +41,7 @@ productRouter.put(
     if (product) {
       product.name = req.body.name;
       product.slug = req.body.slug;
+      product.priceUnit = req.body.priceUnit;
       product.price = req.body.price;
       product.image = req.body.image;
       product.images = req.body.images;
@@ -140,6 +141,7 @@ productRouter.get(
     const page = query.page || 1;
     const category = query.category || '';
     const price = query.price || '';
+    const priceUnit = query.priceUnit || '';
     const rating = query.rating || '';
     const order = query.order || '';
     const searchQuery = query.query || '';

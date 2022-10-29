@@ -1,4 +1,19 @@
 const data = {
+  priceUnits:[
+    {
+      name:'US Dolar',
+      sign:'$',
+      unit:1,
+      available:true,
+      default:true
+    },
+    {
+      name:'Iraqi Dinar',
+      sign:'IQD',
+      unit:1460,
+      available:true,
+    }
+  ],
   languages: [
     {
       name: "کوردی",

@@ -146,7 +146,7 @@ function ProductScreen() {
                 numReviews={product.numReviews}
               ></Rating>
             </ListGroup.Item>
-            <ListGroup.Item>{frontEnd.Price[lang]||frontEnd.price[defLang]|| 'Pirce'} : {castNumber( product.price,lang,'$')}</ListGroup.Item>
+            <ListGroup.Item>{frontEnd.Price[lang]||frontEnd.price[defLang]|| 'Pirce'} : {castNumber( product.price,lang,product.priceUnit)}</ListGroup.Item>
             <ListGroup.Item>
               <Row xs={1} md={2} className="g-2">
                 {[product.image, ...product.images].map((x) => (
@@ -178,7 +178,7 @@ function ProductScreen() {
                 <ListGroup.Item>
                   <Row>
                     <Col>{frontEnd.Price[lang]||frontEnd.Price[defLang]|| 'Price'}:</Col>
-                    <Col>{castNumber( product.price,lang,'$')}</Col>
+                    <Col>{castNumber( product.price,lang,product.priceUnit)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>

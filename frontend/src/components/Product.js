@@ -42,7 +42,10 @@ const frontEnd=translator.product.frontEnd
           <Card.Title>{product.name}</Card.Title>
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
-        <Card.Text>{castNumber( product.price,lang,'$')}</Card.Text>
+        
+        <Card.Text>{
+        
+        castNumber( product.price,lang,product.priceUnit)}</Card.Text>
         {product.countInStock === 0 ? (
           <Button variant="light" disabled>
             {frontEnd.Outofstock[lang] || frontEnd.Outofstock[defLang] || 'Out of stock'}
