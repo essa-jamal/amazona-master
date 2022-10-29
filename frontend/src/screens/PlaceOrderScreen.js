@@ -8,10 +8,11 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { toast } from 'react-toastify';
-import { getError } from '../utils';
+import { castNumber, getError } from '../utils';
 import { Store } from '../Store';
 import CheckoutSteps from '../components/CheckoutSteps';
 import LoadingBox from '../components/LoadingBox';
+import translator from '../translator';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -33,8 +34,8 @@ export default function PlaceOrderScreen() {
   });
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
-
+  const { cart, userInfo,lang,defLang } = state;
+const frontEnd=translator.Shipping.frontEnd;
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
   cart.itemsPrice = round2(
     cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
@@ -83,37 +84,37 @@ export default function PlaceOrderScreen() {
     <div>
       <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
       <Helmet>
-        <title>Preview Order</title>
+        <title>{frontEnd.PreviewOrder[lang]||frontEnd.PreviewOrder[defLang]||'Preview Order'}</title>
       </Helmet>
-      <h1 className="my-3">Preview Order</h1>
+      <h1 className="my-3">{frontEnd.PreviewOrder[lang]||frontEnd.PreviewOrder[defLang]||'Preview Order'}</h1>
       <Row>
         <Col md={8}>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Shipping</Card.Title>
+              <Card.Title>{frontEnd.Shipping[lang]||frontEnd.Shipping[defLang]||'Shipping'}</Card.Title>
               <Card.Text>
-                <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
-                <strong>Address: </strong> {cart.shippingAddress.address},
+                <strong>{frontEnd.FullName[lang]||frontEnd.FullName[defLang]||'Name'}:</strong> {cart.shippingAddress.fullName} <br />
+                <strong>{frontEnd.Address[lang]||frontEnd.Address[defLang]||'Address'}: </strong> {cart.shippingAddress.address},
                 {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},
                 {cart.shippingAddress.country}
               </Card.Text>
-              <Link to="/shipping">Edit</Link>
+              <Link to="/shipping">{frontEnd.Edit[lang]||frontEnd.Edit[defLang]||'Edit'}</Link>
             </Card.Body>
           </Card>
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Payment</Card.Title>
+              <Card.Title>{frontEnd.Payment[lang]||frontEnd.Payment[defLang]||'Payment'}</Card.Title>
               <Card.Text>
-                <strong>Method:</strong> {cart.paymentMethod}
+                <strong>{frontEnd.PaymentMethod[lang]||frontEnd.PaymentMethod[defLang]||'Method'}:</strong> {cart.paymentMethod}
               </Card.Text>
-              <Link to="/payment">Edit</Link>
+              <Link to="/payment">{frontEnd.Edit[lang]||frontEnd.Edit[defLang]||'Edit'}</Link>
             </Card.Body>
           </Card>
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Items</Card.Title>
+              <Card.Title>{frontEnd.Items[lang]||frontEnd.Items[defLang]||'Items'}</Card.Title>
               <ListGroup variant="flush">
                 {cart.cartItems.map((item) => (
                   <ListGroup.Item key={item._id}>
@@ -127,47 +128,47 @@ export default function PlaceOrderScreen() {
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
                       </Col>
                       <Col md={3}>
-                        <span>{item.quantity}</span>
+                        <span>{castNumber( item.quantity,lang)}</span>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
+                      <Col md={3}>{castNumber( item.price,lang,'$')}</Col>
                     </Row>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
-              <Link to="/cart">Edit</Link>
+              <Link to="/cart">{frontEnd.Edit[lang]||frontEnd.Edit[defLang]||'Edit'}</Link>
             </Card.Body>
           </Card>
         </Col>
         <Col md={4}>
           <Card>
             <Card.Body>
-              <Card.Title>Order Summary</Card.Title>
+              <Card.Title>{frontEnd.OrderSummary[lang]||frontEnd.OrderSummary[defLang]||'Order Summary'}</Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Items</Col>
-                    <Col>${cart.itemsPrice.toFixed(2)}</Col>
+                    <Col>{frontEnd.Items[lang]||frontEnd.Items[defLang]||'Items'}</Col>
+                    <Col>{castNumber(Number(cart.itemsPrice.toFixed(2)),lang,'$')}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Shipping</Col>
-                    <Col>${cart.shippingPrice.toFixed(2)}</Col>
+                    <Col>{frontEnd.Shipping[lang]||frontEnd.Shipping[defLang]||'Shipping'}</Col>
+                    <Col>{castNumber(Number(cart.shippingPrice.toFixed(2)),lang,'$')}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Tax</Col>
-                    <Col>${cart.taxPrice.toFixed(2)}</Col>
+                    <Col>{frontEnd.Tax[lang]||frontEnd.Tax[defLang]||'Tax'}</Col>
+                    <Col>{castNumber(Number(cart.taxPrice.toFixed(2)),lang,'$')}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>
-                      <strong> Order Total</strong>
+                      <strong> {frontEnd.OrderTotal[lang]||frontEnd.OrderTotal[defLang]||'Order Total'}</strong>
                     </Col>
                     <Col>
-                      <strong>${cart.totalPrice.toFixed(2)}</strong>
+                      <strong>{castNumber(Number(cart.totalPrice.toFixed(2)),lang,'$')}</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -178,7 +179,7 @@ export default function PlaceOrderScreen() {
                       onClick={placeOrderHandler}
                       disabled={cart.cartItems.length === 0}
                     >
-                      Place Order
+                      {frontEnd.PlaceOrder[lang]||frontEnd.PlaceOrder[defLang]||'Place Order'}
                     </Button>
                   </div>
                   {loading && <LoadingBox></LoadingBox>}

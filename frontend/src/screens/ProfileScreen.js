@@ -6,6 +6,7 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import axios from 'axios';
+import translator from '../translator';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,7 +24,8 @@ const reducer = (state, action) => {
 
 export default function ProfileScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { userInfo } = state;
+  const { userInfo,lang,defLang } = state;
+  const frontEnd=translator.Customer.frontEnd;
   const [name, setName] = useState(userInfo.name);
   const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState('');
@@ -64,12 +66,12 @@ export default function ProfileScreen() {
   return (
     <div className="container small-container">
       <Helmet>
-        <title>User Profile</title>
+        <title>{frontEnd.UserProfile[lang]||frontEnd.UserProfile[defLang]||'User Profile'}</title>
       </Helmet>
-      <h1 className="my-3">User Profile</h1>
+      <h1 className="my-3">{frontEnd.UserProfile[lang]||frontEnd.UserProfile[defLang]||'User Profile'}</h1>
       <form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>{frontEnd.Name[lang]||frontEnd.Name[defLang]||'Name'}</Form.Label>
           <Form.Control
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -77,7 +79,7 @@ export default function ProfileScreen() {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>{frontEnd.Email[lang]||frontEnd.Email[defLang]||'Email'}</Form.Label>
           <Form.Control
             type="email"
             value={email}
@@ -86,21 +88,21 @@ export default function ProfileScreen() {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>{frontEnd.Password[lang]||frontEnd.Password[defLang]||'Password'}</Form.Label>
           <Form.Control
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Confirm Password</Form.Label>
+          <Form.Label>{frontEnd.ConfirmPassword[lang]||frontEnd.ConfirmPassword[defLang]||'Confirm Password'}</Form.Label>
           <Form.Control
             type="password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Update</Button>
+          <Button type="submit">{frontEnd.Update[lang]||frontEnd[defLang]||'Update'}</Button>
         </div>
       </form>
     </div>

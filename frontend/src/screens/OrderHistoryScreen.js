@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { castNumber, getError } from '../utils';
 import Button from 'react-bootstrap/esm/Button';
+import translator from '../translator';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,7 +24,9 @@ const reducer = (state, action) => {
 
 export default function OrderHistoryScreen() {
   const { state } = useContext(Store);
-  const { userInfo } = state;
+  const { userInfo,lang,defLang } = state;
+  const frontEnd=translator.admin.frontEnd;
+  
   const navigate = useNavigate();
 
   const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
@@ -52,10 +55,10 @@ export default function OrderHistoryScreen() {
   return (
     <div>
       <Helmet>
-        <title>Order History</title>
+        <title>{frontEnd.OrderHistory[lang]||frontEnd.OrderHistory[defLang]||'Order History'}</title>
       </Helmet>
 
-      <h1>Order History</h1>
+      <h1>{frontEnd.OrderHistory[lang]||frontEnd.OrderHistory[defLang]||'Order History'}</h1>
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
@@ -64,25 +67,25 @@ export default function OrderHistoryScreen() {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
-              <th>ACTIONS</th>
+              <th>{frontEnd.ID[lang]||frontEnd.ID[defLang]||'ID'}</th>
+              <th>{frontEnd.DATE[lang]||frontEnd.DATE[defLang]||'DATE'}</th>
+              <th>{frontEnd.TOTAL[lang]||frontEnd.TOTAL[defLang]||'TOTAL'}</th>
+              <th>{frontEnd.PAID[lang]||frontEnd.PAID[defLang]||'PAID'}</th>
+              <th>{frontEnd.DELIVERED[lang]||frontEnd.DELIVERED[defLang]||'DELIVERED'}</th>
+              <th>{frontEnd.ACTIONS[lang]||frontEnd.ACTIONS[defLang]||'ACTIONS'}</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice.toFixed(2)}</td>
-                <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
+                <td>{castNumber(order.createdAt.substring(0, 10),lang)}</td>
+                <td>{castNumber(Number( order.totalPrice.toFixed(2)),lang,'$')}</td>
+                <td>{order.isPaid ? castNumber( order.paidAt.substring(0, 10)+' '+order.paidAt.substring(11, 16),lang) : frontEnd.No[lang]||frontEnd.No[defLang]||'No'}</td>
                 <td>
                   {order.isDelivered
-                    ? order.deliveredAt.substring(0, 10)
-                    : 'No'}
+                    ? castNumber( order.deliveredAt.substring(0, 10)+' '+order.deliveredAt.substring(11, 16),lang)
+                    :frontEnd.No[lang]||frontEnd.No[defLang]||'No'}
                 </td>
                 <td>
                   <Button
@@ -92,7 +95,7 @@ export default function OrderHistoryScreen() {
                       navigate(`/order/${order._id}`);
                     }}
                   >
-                    Details
+                    {frontEnd.Details[lang]||frontEnd.Details[defLang]||'Details'}
                   </Button>
                 </td>
               </tr>

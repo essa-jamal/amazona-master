@@ -20,6 +20,14 @@ export const getError = (error) => {
         result +='-'
         continue
       }
+      if(txt[i]==='.'){
+        result +='.'
+        continue
+      }
+      if(txt[i]===':'){
+        result +=':'
+        continue
+      }
       
      result +=cast[Number(txt[i]) ]
     }
