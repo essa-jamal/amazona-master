@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { Store } from "../Store";
-import { getError } from "../utils";
+import { castNumber, getError } from "../utils";
 import { toast } from "react-toastify";
+import translator from "../translator";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -40,7 +41,8 @@ const reducer = (state, action) => {
 export default function OrderListScreen() {
   const navigate = useNavigate();
   const { state } = useContext(Store);
-  const { userInfo } = state;
+  const { userInfo,lang,defLang } = state;
+  const frontEnd=translator.admin.frontEnd
   const [{ loading, error, orders, loadingDelete, successDelete }, dispatch] =
   useReducer(reducer, {
     loading: true,
@@ -71,13 +73,13 @@ export default function OrderListScreen() {
   }, [userInfo, successDelete]);
 
   const deleteHandler = async (order) => {
-    if (window.confirm('Are you sure to delete?')) {
+    if (window.confirm(frontEnd.Areyousuretodelete[lang]||frontEnd.Areyousuretodelete[defLang]||'Are you sure to delete?')) {
       try {
         dispatch({ type: 'DELETE_REQUEST' });
         await axios.delete(`/api/orders/${order._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        toast.success('order deleted successfully');
+        toast.success(frontEnd.orderdeletedsuccessfully[lang]||frontEnd.orderdeletedsuccessfully[defLang]||'order deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });
       } catch (err) {
         toast.error(getError(error));
@@ -90,9 +92,9 @@ export default function OrderListScreen() {
   return (
     <div>
       <Helmet>
-        <title>Orders</title>
+        <title>{frontEnd.Orders[lang]||frontEnd.Orders[defLang]||'Orders'}</title>
       </Helmet>
-      <h1>Orders</h1>
+      <h1>{frontEnd.Orders[lang]||frontEnd.Orders[defLang]||'Orders'}</h1>
       {loadingDelete && <LoadingBox></LoadingBox>}
 
       {loading ? (
@@ -103,28 +105,28 @@ export default function OrderListScreen() {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>USER</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
-              <th>ACTIONS</th>
+              <th>{frontEnd.ID[lang]||frontEnd.ID[defLang]||'ID'}</th>
+              <th>{frontEnd.USER[lang]||frontEnd.USER[defLang]||'USER'}</th>
+              <th>{frontEnd.DATE[lang]||frontEnd.DATE[defLang]||'DATE'}</th>
+              <th>{frontEnd.TOTAL[lang]||frontEnd.TOTAL[defLang]||'TOTAL'}</th>
+              <th>{frontEnd.PAID[lang]||frontEnd.PAID[defLang]||'PAID'}</th>
+              <th>{frontEnd.DELIVERED[lang]||frontEnd.DELIVERED[defLang]||'DELIVERED'}</th>
+              <th>{frontEnd.ACTIONS[lang]||frontEnd.ACTIONS[defLang]||'ACTIONS'}</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
-                <td>{order.user ? order.user.name : "DELETED USER"}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice.toFixed(2)}</td>
-                <td>{order.isPaid ? order.paidAt.substring(0, 10) : "No"}</td>
-                <td>{order.isPaid ? order.paidAt.substring(0, 10) : "No"}</td>
+                <td>{order.user ? order.user.name :frontEnd.DELETEDUSER[lang]||frontEnd.DELETEDUSER[defLang]|| "DELETED USER"}</td>
+                <td>{castNumber( order.createdAt.substring(0, 10),lang)}</td>
+                <td>{castNumber( order.totalPrice.toFixed(2),lang)}</td>
+                <td>{order.isPaid ?castNumber( order.paidAt.substring(0, 10),lang) :frontEnd.No[lang]||frontEnd.No[defLang]|| "No"}</td>
+                
                 <td>
                   {order.isDelivered
-                    ? order.deliveredAt.substring(0, 10)
-                    : "No"}
+                    ?castNumber( order.deliveredAt.substring(0, 10),lang)
+                    : frontEnd.No[lang]||frontEnd.No[defLang]||"No"}
                 </td>
                 <td>
                   <Button
@@ -134,7 +136,7 @@ export default function OrderListScreen() {
                       navigate(`/order/${order._id}`);
                     }}
                   >
-                    Details
+                    {frontEnd.Details[lang]||frontEnd.Details[defLang]||'Details'}
                   </Button>
                   &nbsp;
                   <Button
@@ -142,7 +144,7 @@ export default function OrderListScreen() {
                     variant="light"
                     onClick={() => deleteHandler(order)}
                   >
-                    Delete
+                    {frontEnd.Delete[lang]||frontEnd.Delete[defLang]||'Delete'}
                   </Button>
                 </td>
               </tr>

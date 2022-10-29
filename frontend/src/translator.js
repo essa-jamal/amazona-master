@@ -102,7 +102,15 @@ const translator = {
       Name:['ناو','الاسم','Name','Ad','نام','Nom','Name',],
       ConfirmPassword:['پشتڕاستکردنەوەی پاسۆرد','تأكيد كلمة المرور','Confirm Password','Şifreyi Onayla','تایید رمز عبور','Confirmer le mot de passe','Passwort bestätigen',],
       UserProfile:['زانیاری بەکارهێنەر','تعريف المستخدم','User Profile','Kullanıcı Profili','مشخصات کاربر','Profil de l’utilisateur','Benutzerprofil'],
-      Update:['نوێکردنەوە','تحديث','Update','Güncelleştirmek','روز رسانی','Mettre à jour','Aktualisieren',]  
+      Update:['نوێکردنەوە','تحديث','Update','Güncelleştirmek','روز رسانی','Mettre à jour','Aktualisieren',],
+      userdeletedsuccessfully:['','','user deleted successfully','','','','',],  
+      Users:['بەکارهێنەران','المستخدمين','Users','Kullanıcı','کاربران','Utilisateurs','Benutzer'],
+      ID:['کۆد','رمز','ID','Kimliği','شناسه','Id','Id',],
+      ACTIONS:['چالاکی','الاجراءات','ACTIONS','EYLEMLER','اقدامات','ACTIONS','AKTIONEN',],       
+      Edit:['دەستکاری','حرر','Edit','Düzenlemek','ویرایش','Éditer','Redigieren',],
+      Delete:['سڕینەوە','حذف','Delete','Silmek','حذف','Supprimer','Löschen',],
+      ISADMIN:['بەڕێوەبەرە','هو المشرف','IS ADMIN','YÖNETİCİSİDİR','مدیر است','EST ADMIN','IST ADMIN',],
+      YES:['بەڵێ','نعم','YES','Evet','بله','Oui','Ja',],
     },
     backEnd: {},
     error: {},
@@ -147,8 +155,13 @@ const translator = {
       OrderHistory:['لیستی داواکاری','سجل الطلبات','Order History','Sipariş Geçmişi','تاریخچه نظم','Historique des commandes','Bestellhistorie'],
       No:['نەخێر','لا','No','Hayır','نه','Non','Nein',],  
       Details:['وردەکاریەکان','التفاصيل','Details','Şey','جزئیات','Détails','Details',],
-
-
+      Orders:['داواکارییەکان','طلبات','Orders','Sipariş','سفارشات','Ordres','Aufträge'],
+      USER:['بەکارهێنەر','مستخدم','USER','KULLANICI','کاربر','UTILISATEUR','BENUTZER',],
+      DELETEDUSER:['بەکارهێنەری سڕدراوە','المستخدم المحذوف','DELETED USER','SİLİNEN KULLANICI','کاربر حذف شده','UTILISATEUR SUPPRIMÉ','GELÖSCHTER BENUTZER',],
+      Delete:['سڕینەوە','حذف','Delete','Silmek','حذف','Supprimer','Löschen',],
+      Areyousuretodelete:['ئایا دڵنیایت لە سڕینەوە؟','هل أنت متأكد من الحذف؟','Are you sure to delete','Sileceğinizden emin misiniz?','آیا مطمئن هستید که حذف می کنید؟','Êtes-vous sûr de supprimer?','Sind Sie sicher, dass Sie löschen?',],
+      orderdeletedsuccessfully:['داواکردن بەسەرکەوتوویی سڕایەوە','تم حذف الطلب بنجاح','order deleted successfully','sipariş başarıyla silindi','سفارش حذف شده با موفقیت','commande supprimée avec succès','Bestellung erfolgreich gelöscht',],
+            
     },
     backEnd: {},
     error: {},

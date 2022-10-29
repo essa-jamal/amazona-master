@@ -8,7 +8,7 @@ import { Store } from '../Store';
 import { getError } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import translator from '../translator'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,8 +46,8 @@ export default function UserListScreen() {
     error: '',
   });
   const { state } = useContext(Store);
-  const { userInfo } = state;
-
+  const { userInfo,lang,defLang } = state;
+const frontEnd=translator.Customer.frontEnd;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -71,13 +71,13 @@ export default function UserListScreen() {
   }, [userInfo, successDelete]);
 
   const deleteHandler = async (user) => {
-    if (window.confirm('Are you sure to delete?')) {
+    if (window.confirm(translator.admin.frontEnd.Areyousuretodelete[lang]||translator.admin.frontEnd.Areyousuretodelete[defLang]||'Are you sure to delete?')) {
       try {
         dispatch({ type: 'DELETE_REQUEST' });
         await axios.delete(`/api/users/${user._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        toast.success('user deleted successfully');
+        toast.success(frontEnd.userdeletedsuccessfully[lang]||frontEnd.userdeletedsuccessfully[defLang]||'user deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });
       } catch (error) {
         toast.error(getError(error));
@@ -91,9 +91,9 @@ export default function UserListScreen() {
   return (
     <div>
       <Helmet>
-        <title>Users</title>
+        <title>{frontEnd.Users[lang]||frontEnd.Users[defLang]||'Users'}</title>
       </Helmet>
-      <h1>Users</h1>
+      <h1>{frontEnd.Users[lang]||frontEnd.Users[defLang]||'Users'}</h1>
     
       {loadingDelete && <LoadingBox></LoadingBox>}
       {loading ? (
@@ -104,11 +104,11 @@ export default function UserListScreen() {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>EMAIL</th>
-              <th>IS ADMIN</th>
-              <th>ACTIONS</th>
+              <th>{frontEnd.ID[lang]||frontEnd.ID[defLang]||'ID'}</th>
+              <th>{frontEnd.Name[lang]||frontEnd.Name[defLang]||'NAME'}</th>
+              <th>{frontEnd.Email[lang]||frontEnd.Email[defLang]||'EMAIL'}</th>
+              <th>{frontEnd.ISADMIN[lang]||frontEnd.ISADMIN[defLang]||'IS ADMIN'}</th>
+              <th>{frontEnd.ACTIONS[lang]||frontEnd.ACTIONS[defLang]||'ACTIONS'}</th>
             </tr>
           </thead>
           <tbody>
@@ -117,14 +117,14 @@ export default function UserListScreen() {
                 <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.isAdmin ? 'YES' : 'NO'}</td>
+                <td>{user.isAdmin ? frontEnd.YES[lang]||frontEnd.YES[defLang]||'YES' :frontEnd.NO[lang]||frontEnd.NO[defLang]|| 'NO'}</td>
                 <td>
                   <Button
                     type="button"
                     variant="light"
                     onClick={() => navigate(`/admin/user/${user._id}`)}
                   >
-                    Edit
+                    {frontEnd.Edit[lang]||frontEnd.Edit[defLang]||'Edit'}
                   </Button>
                   &nbsp;
                   <Button
@@ -132,7 +132,7 @@ export default function UserListScreen() {
                     variant="light"
                     onClick={() => deleteHandler(user)}
                   >
-                    Delete
+                    {frontEnd.Delete[lang]||frontEnd.Delete[defLang]||'Delete'}
                   </Button>
                 </td>
               </tr>
