@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 import { Store } from '../Store';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { getError } from '../utils';
+import { castNumber, getError } from '../utils';
+import translator from '../translator';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -74,8 +75,8 @@ export default function ProductListScreen() {
   const page = sp.get('page') || 1;
 
   const { state } = useContext(Store);
-  const { userInfo } = state;
-
+  const { userInfo,lang,defLang } = state;
+  const frontEnd=translator.admin.Products;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -95,7 +96,7 @@ export default function ProductListScreen() {
   }, [page, userInfo, successDelete]);
 
   const createHandler = async () => {
-    if (window.confirm('Are you sure to create?')) {
+    if (window.confirm(frontEnd.Areyousuretocreate[lang]||frontEnd.Areyousuretocreate[defLang]||'Are you sure to create?')) {
       try {
         dispatch({ type: 'CREATE_REQUEST' });
         const { data } = await axios.post(
@@ -105,7 +106,7 @@ export default function ProductListScreen() {
             headers: { Authorization: `Bearer ${userInfo.token}` },
           }
         );
-        toast.success('product created successfully');
+        toast.success(frontEnd.productcreatedsuccessfully[lang]||frontEnd.productcreatedsuccessfully[defLang]||'product created successfully');
         dispatch({ type: 'CREATE_SUCCESS' });
         navigate(`/admin/product/${data.product._id}`);
       } catch (err) {
@@ -118,12 +119,12 @@ export default function ProductListScreen() {
   };
   
   const deleteHandler = async (product) => {
-    if (window.confirm('Are you sure to delete?')) {
+    if (window.confirm(frontEnd.Areyousuretodelete[lang]||frontEnd.Areyousuretodelete[defLang]||'Are you sure to delete?')) {
       try {
         await axios.delete(`/api/products/${product._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        toast.success('product deleted successfully');
+        toast.success(frontEnd.productdeletedsuccessfully[lang]||frontEnd.productdeletedsuccessfully[defLang]||'product deleted successfully');
         dispatch({ type: 'DELETE_SUCCESS' });
       } catch (err) {
         toast.error(getError(error));
@@ -139,12 +140,12 @@ export default function ProductListScreen() {
     <div>
        <Row>
         <Col>
-          <h1>Products</h1>
+          <h1>{frontEnd.Products[lang]||frontEnd.Products[defLang]||'Products'}</h1>
         </Col>
         <Col className="col text-end">
           <div>
             <Button type="button" onClick={createHandler}>
-              Create Product
+              {frontEnd.CreateProduct[lang]||frontEnd.CreateProduct[defLang]||'Create Product'}
             </Button>
           </div>
         </Col>
@@ -162,12 +163,12 @@ export default function ProductListScreen() {
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
-                <th>ACTIONS</th>
+                <th>{frontEnd.ID[lang]||frontEnd.ID[defLang]||'ID'}</th>
+                <th>{frontEnd.Name[lang]||frontEnd.Name[defLang]||'NAME'}</th>
+                <th>{frontEnd.Price[lang]||frontEnd.Price[defLang]||'PRICE'}</th>
+                <th>{frontEnd.Category[lang]||frontEnd.Category[defLang]||'CATEGORY'}</th>
+                <th>{frontEnd.BRAND[lang]||frontEnd.BRAND[defLang]||'BRAND'}</th>
+                <th>{frontEnd.ACTIONS[lang]||frontEnd.ACTIONS[defLang]||'ACTIONS'}</th>
               </tr>
             </thead>
             <tbody>
@@ -175,7 +176,7 @@ export default function ProductListScreen() {
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
-                  <td>{product.price}</td>
+                  <td>{castNumber( product.price,lang,product.priceUnit)}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
@@ -184,7 +185,8 @@ export default function ProductListScreen() {
                       variant="light"
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
-                      Edit
+                      {frontEnd.Edit[lang]||frontEnd.Edit[defLang]||
+                      'Edit'}
                     </Button>
                     &nbsp;
                     <Button
@@ -192,7 +194,7 @@ export default function ProductListScreen() {
                       variant="light"
                       onClick={() => deleteHandler(product)}
                     >
-                      Delete
+                      {frontEnd.Delete[lang]||frontEnd.Delete[defLang]||'Delete'}
                     </Button>
                   </td>
                 </tr>

@@ -12,6 +12,7 @@ import MessageBox from "../components/MessageBox";
 import Button from "react-bootstrap/Button";
 import { toast } from "react-toastify";
 import data from "../data";
+import translator from "../translator";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -48,7 +49,8 @@ export default function ProductEditScreen() {
   const { id: productId } = params;
 
   const { state } = useContext(Store);
-  const { userInfo } = state;
+  const { userInfo,lang,defLang } = state;
+  const frontEnd=translator.admin.Products;
   const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
     useReducer(reducer, {
       loading: true,
@@ -118,7 +120,7 @@ export default function ProductEditScreen() {
       dispatch({
         type: "UPDATE_SUCCESS",
       });
-      toast.success("Product updated successfully");
+      toast.success(frontEnd.Productupdatedsuccessfully[lang]||frontEnd.Productupdatedsuccessfully[defLang]|| "Product updated successfully");
       navigate("/admin/products");
     } catch (err) {
       toast.error(getError(err));
@@ -143,7 +145,7 @@ export default function ProductEditScreen() {
       } else {
         setImage(data.secure_url);
       }
-      toast.success("Image uploaded successfully. click Update to apply it");
+      toast.success(frontEnd.ImageuploadedsuccessfullyclickUpdatetoapplyit[lang]||frontEnd.ImageuploadedsuccessfullyclickUpdatetoapplyit[defLang]|| "Image uploaded successfully. click Update to apply it");
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
@@ -154,15 +156,15 @@ export default function ProductEditScreen() {
     console.log(images);
     console.log(images.filter((x) => x !== fileName));
     setImages(images.filter((x) => x !== fileName));
-    toast.success("Image removed successfully. click Update to apply it");
+    toast.success(frontEnd.ImageremovedsuccessfullyclickUpdatetoapplyit[lang]||frontEnd.ImageremovedsuccessfullyclickUpdatetoapplyit[defLang]||"Image removed successfully. click Update to apply it");
   };
 
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Edit Product ${productId}</title>
+        <title>{frontEnd.EditProduct[lang]||frontEnd.EditProduct[defLang]||'Edit Product'} {productId}</title>
       </Helmet>
-      <h1>Edit Product {productId}</h1>
+      <h1>{frontEnd.EditProduct[lang]||frontEnd.EditProduct[defLang]||'Edit Product'} {productId}</h1>
 
       {loading ? (
         <LoadingBox></LoadingBox>
@@ -171,7 +173,7 @@ export default function ProductEditScreen() {
       ) : (
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>{frontEnd.Name[lang]||frontEnd.Name[defLang]||'Name'}</Form.Label>
             <Form.Control
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -179,14 +181,14 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="slug">
-            <Form.Label>Slug</Form.Label>
+            <Form.Label>{frontEnd.Slug[lang]||frontEnd.Slug[defLang]||'Slug'}</Form.Label>
             <Form.Control
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
               required
             />
           </Form.Group>
-          <Form.Label>Price Unit</Form.Label>
+          <Form.Label>{frontEnd.PriceUnit[lang]||frontEnd.PriceUnit[defLang]||'Price Unit'}</Form.Label>
           <Form.Group className="mb-3" controlId="name">
             <Form.Select
               value={priceUnit}
@@ -211,7 +213,7 @@ export default function ProductEditScreen() {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>{frontEnd.Price[lang]||frontEnd.Price[defLang]||'Price'}</Form.Label>
             <Form.Control
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -219,7 +221,7 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="image">
-            <Form.Label>Image File</Form.Label>
+            <Form.Label>{frontEnd.ImageFile[lang]||frontEnd.ImageFile[defLang]||'Image File'}</Form.Label>
             <Form.Control
               value={image}
               onChange={(e) => setImage(e.target.value)}
@@ -227,14 +229,14 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="imageFile">
-            <Form.Label>Upload Image</Form.Label>
+            <Form.Label>{frontEnd.UploadImage[lang]||frontEnd.UploadImage[defLang]||'Upload Image'}</Form.Label>
             <Form.Control type="file" onChange={uploadFileHandler} />
             {loadingUpload && <LoadingBox></LoadingBox>}
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="additionalImage">
-            <Form.Label>Additional Images</Form.Label>
-            {images.length === 0 && <MessageBox>No image</MessageBox>}
+            <Form.Label>{frontEnd.AdditionalImages[lang]||frontEnd.AdditionalImages[defLang]||'Additional Images'}</Form.Label>
+            {images.length === 0 && <MessageBox>{frontEnd.Noimage[lang]||frontEnd.Noimage[defLang]||'No image'}</MessageBox>}
             <ListGroup variant="flush">
               {images.map((x) => (
                 <ListGroup.Item key={x}>
@@ -247,7 +249,7 @@ export default function ProductEditScreen() {
             </ListGroup>
           </Form.Group>
           <Form.Group className="mb-3" controlId="additionalImageFile">
-            <Form.Label>Upload Aditional Image</Form.Label>
+            <Form.Label>{frontEnd.UploadAditionalImage[lang]||frontEnd.UploadAditionalImage[defLang]||'Upload Aditional Image'}</Form.Label>
             <Form.Control
               type="file"
               onChange={(e) => uploadFileHandler(e, true)}
@@ -256,7 +258,7 @@ export default function ProductEditScreen() {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="category">
-            <Form.Label>Category</Form.Label>
+            <Form.Label>{frontEnd.Category[lang]||frontEnd.Category[defLang]||'Category'}</Form.Label>
             <Form.Control
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -264,7 +266,7 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="brand">
-            <Form.Label>Brand</Form.Label>
+            <Form.Label>{frontEnd.BRAND[lang]||frontEnd.BRAND[defLang]||'Brand'}</Form.Label>
             <Form.Control
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
@@ -272,7 +274,7 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="countInStock">
-            <Form.Label>Count In Stock</Form.Label>
+            <Form.Label>{frontEnd.CountInStock[lang]||frontEnd.CountInStock[defLang]||'Count In Stock'}</Form.Label>
             <Form.Control
               value={countInStock}
               onChange={(e) => setCountInStock(e.target.value)}
@@ -280,7 +282,7 @@ export default function ProductEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>Description</Form.Label>
+            <Form.Label>{frontEnd.Description[lang]||frontEnd[defLang]||'Description'}</Form.Label>
             <Form.Control
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -289,7 +291,7 @@ export default function ProductEditScreen() {
           </Form.Group>
           <div className="mb-3">
             <Button disabled={loadingUpdate} type="submit">
-              Update
+              {frontEnd.Update[lang]||frontEnd.Update[defLang]||'Update'}
             </Button>
             {loadingUpdate && <LoadingBox></LoadingBox>}{" "}
           </div>

@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import Chart from 'react-google-charts';
 import axios from 'axios';
 import { Store } from '../Store';
-import { getError } from '../utils';
+import { castNumber, getError } from '../utils';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import translator from '../translator';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -32,8 +33,8 @@ export default function DashboardScreen() {
   });
   
   const { state } = useContext(Store);
-  const { userInfo } = state;
-
+  const { userInfo,lang,defLang } = state;
+const frontEnd=translator.admin.dashboard;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -55,7 +56,7 @@ export default function DashboardScreen() {
 
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1>{frontEnd.Dashboard[lang]||frontEnd.Dashboard[defLang]||'Dashboard'}</h1>
       {loading ? (
         <LoadingBox />
       ) : error ? (
@@ -67,11 +68,11 @@ export default function DashboardScreen() {
               <Card>
                 <Card.Body>
                   <Card.Title>
-                    {summary.users && summary.users[0]
+                    {castNumber( summary.users && summary.users[0]
                       ? summary.users[0].numUsers
-                      : 0}
+                      : 0,lang)}
                   </Card.Title>
-                  <Card.Text> Users</Card.Text>
+                  <Card.Text> {frontEnd.Users[lang]||frontEnd.Users[defLang]||'Users'}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -79,11 +80,11 @@ export default function DashboardScreen() {
               <Card>
                 <Card.Body>
                   <Card.Title>
-                    {summary.orders && summary.users[0]
+                    {castNumber( summary.orders && summary.users[0]
                       ? summary.orders[0].numOrders
-                      : 0}
+                      : 0,lang)}
                   </Card.Title>
-                  <Card.Text> Orders</Card.Text>
+                  <Card.Text> {frontEnd.Orders[lang]||frontEnd.Orders[defLang]||'Orders'}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -91,43 +92,43 @@ export default function DashboardScreen() {
               <Card>
                 <Card.Body>
                   <Card.Title>
-                    $
-                    {summary.orders && summary.users[0]
+                    
+                    {castNumber( summary.orders && summary.users[0]
                       ? summary.orders[0].totalSales.toFixed(2)
-                      : 0}
+                      : 0,lang,'$')}
                   </Card.Title>
-                  <Card.Text> Orders</Card.Text>
+                  <Card.Text> {frontEnd.Orders[lang]||frontEnd.Orders[defLang]||'Orders'}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
           <div className="my-3">
-            <h2>Sales</h2>
+            <h2>{frontEnd.Sales[lang]||frontEnd[defLang]||'Sales'}</h2>
             {summary.dailyOrders.length === 0 ? (
-              <MessageBox>No Sale</MessageBox>
+              <MessageBox>{frontEnd.NoSale[lang]||frontEnd.NoSale[defLang]||'No Sale'}</MessageBox>
             ) : (
               <Chart
                 width="100%"
                 height="400px"
                 chartType="AreaChart"
-                loader={<div>Loading Chart...</div>}
+                loader={<div>{frontEnd.LoadingChart[lang]||frontEnd.LoadingChart[defLang]||'Loading Chart...'}</div>}
                 data={[
-                  ['Date', 'Sales'],
+                  ['Date'  , frontEnd.Sales[lang]||'Sales'],
                   ...summary.dailyOrders.map((x) => [x._id, x.sales]),
                 ]}
               ></Chart>
             )}
           </div>
           <div className="my-3">
-            <h2>Categories</h2>
+            <h2>{frontEnd.Categories[lang]||frontEnd.Categories[defLang]||'Categories'}</h2>
             {summary.productCategories.length === 0 ? (
-              <MessageBox>No Category</MessageBox>
+              <MessageBox>{frontEnd.NoSale[lang]||frontEnd.NoSale[defLang]||'No Category'}</MessageBox>
             ) : (
               <Chart
                 width="100%"
                 height="400px"
                 chartType="PieChart"
-                loader={<div>Loading Chart...</div>}
+                loader={<div>{frontEnd.LoadingChart[lang]||frontEnd.LoadingChart[defLang]||'Loading Chart...'}</div>}
                 data={[
                   ['Category', 'Products'],
                   ...summary.productCategories.map((x) => [x._id, x.count]),
