@@ -10,7 +10,7 @@ export const getError = (error) => {
     const txt=n+''
     const cast=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']
     let result=''
-    console.log('nnnnnn =>',txt[txt.length-1],)
+    
     for(let i=0;i<txt.length; i++){
           if(txt[i]===' '){
         result +=' '

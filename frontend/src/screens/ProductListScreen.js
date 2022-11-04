@@ -10,6 +10,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { castNumber, getError } from '../utils';
 import translator from '../translator';
+import Badge from "react-bootstrap/Badge";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -175,9 +176,16 @@ export default function ProductListScreen() {
               {products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
-                  <td>{product.name}</td>
+                  
+                  <td  >
+                  {product.isAvailable? (
+                        <Badge bg="success">{product.name.split('@@')[lang]||product.name.split('@@')[defLang]||product.name.split('@@')[0]}</Badge>
+                      ) : (
+                        <Badge bg="danger">{product.name.split('@@')[lang]||product.name.split('@@')[defLang]||product.name.split('@@')[0]}</Badge>
+                      )}
+                    </td>
                   <td>{castNumber( product.price,lang,product.priceUnit)}</td>
-                  <td>{product.category}</td>
+                  <td>{product.category.split('@@')[lang]||product.category.split('@@')[defLang]||product.category.split('@@')[0]}</td>
                   <td>{product.brand}</td>
                   <td>
                     <Button

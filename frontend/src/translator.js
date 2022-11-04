@@ -15,6 +15,7 @@ const translator = {
         Categories:['جۆری کاڵا','الفئات','Categories','Kategori','دسته','Catégories','Kategorien'],
         Allrightsreserved:['هەموو مافەکان پارێزراون','جميع الحقوق محفوظة','All rights reserved','Tüm hakları saklıdır','تمام حقوق این سایت متعلق به وب سایت ترفندستان می باشد.','Tous droits réservés','Alle Rechte vorbehalten'],
         FeaturedProducts:['بەرهەمە تایبەتەکان','المنتجات المميزة','Featured Products','Öne Çıkan Ürünler','محصولات برجسته','Produits en vedette','Vorgestellte Produkte'],
+        NoProductAvailable:['هیچ بەرهەمێک بەردەست نیە','لا يوجد منتج متوفر','No Product Available','Ürün Yok','هیچ محصولی در دسترس نیست','Aucun produit disponible','Kein Produkt verfügbar',]
         
     },
     backEnd: {},

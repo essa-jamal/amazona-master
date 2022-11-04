@@ -116,6 +116,7 @@ export default function SearchScreen() {
       try {
         const { data } = await axios.get(`/api/products/categories`);
         setCategories(data);
+        
       } catch (err) {
         toast.error(getError(err));
       }
@@ -156,7 +157,7 @@ export default function SearchScreen() {
                     className={c === category ? 'text-bold' : ''}
                     to={getFilterUrl({ category: c })}
                   >
-                    {c}
+                    {c.split('@@')[lang] && c.split('@@')[lang] }
                   </Link>
                 </li>
               ))}
@@ -219,9 +220,9 @@ export default function SearchScreen() {
               <Row className="justify-content-between mb-3">
                 <Col md={6}>
                   <div>
-                    {countProducts === 0 ? 'No' :castNumber( countProducts,lang)} {frontEnd.Results[lang]||frontEnd.Results[defLang]||'Results'}
+                    {countProducts === 0 ? ' ' :castNumber( countProducts,lang)} {frontEnd.Results[lang]||frontEnd.Results[defLang]||'Results'}
                     {query !== 'all' && ' : ' + query}
-                    {category !== 'all' && ' : ' + category}
+                    {category !== 'all' && ' : ' + category.split('@@')[lang] }
                     {price !== 'all' && ' : Price ' + price}
                     {rating !== 'all' && ' : Rating ' + rating + ' & up'}
                     {query !== 'all' ||

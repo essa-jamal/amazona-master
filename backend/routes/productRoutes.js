@@ -2,12 +2,26 @@ import express from 'express';
 import Product from '../models/productModel.js';
 import expressAsyncHandler from 'express-async-handler';
 import { isAuth, isAdmin } from '../utils.js';
+import User from '../models/userModel.js';
 
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
+
+  const user=User.find(req.user)
+  
+  if(user && user.isAdmin){
   const products = await Product.find();
+  console.log('Admin User')
   res.send(products);
+}
+else{
+  const products = await Product.find({isAvailable:true});
+  
+  res.send(products);
+}
+
+  
 });
 productRouter.post(
   '/',
@@ -45,6 +59,7 @@ productRouter.put(
       product.price = req.body.price;
       product.image = req.body.image;
       product.images = req.body.images;
+      product.isAvailable=req.body.isAvailable;
       product.category = req.body.category;
       product.brand = req.body.brand;
       product.countInStock = req.body.countInStock;
@@ -186,12 +201,17 @@ productRouter.get(
         : order === 'newest'
         ? { createdAt: -1 }
         : { _id: -1 };
+let isAvailable={}
+        if(!User.find(req.user).isAdmin){
+isAvailable={isAvailable:true}
+}
 
     const products = await Product.find({
       ...queryFilter,
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter,
+      ...isAvailable,
     })
       .sort(sortOrder)
       .skip(pageSize * (page - 1))
@@ -202,6 +222,7 @@ productRouter.get(
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter,
+      ...isAvailable,
     });
     res.send({
       products,
@@ -215,7 +236,7 @@ productRouter.get(
 productRouter.get(
   '/categories',
   expressAsyncHandler(async (req, res) => {
-    const categories = await Product.find().distinct('category');
+    const categories = await Product.find({isAvailable:true}).distinct('category');
     res.send(categories);
   })
 );

@@ -205,7 +205,7 @@ function App() {
                   to={`/search?category=${category}`}
                   onClick={() => setSidebarIsOpen(false)}
                 >
-                  <Nav.Link>{category}</Nav.Link>
+                  <Nav.Link>{category.split('@@')[lang]||category.split('@@')[defLang]||category.split('@@')[0]}</Nav.Link>
                 </LinkContainer>
               </Nav.Item>
             ))}

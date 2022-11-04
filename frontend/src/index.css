@@ -99,3 +99,8 @@ button.thumbnail {
 .rtl{
   direction: rtl !important ;
 }
+.avialbleProduct{
+  color: green; 
+  
+}
+.unAvailableProduct{color: red;}

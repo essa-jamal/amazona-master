@@ -46,6 +46,7 @@ export default function UserEditScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +58,7 @@ export default function UserEditScreen() {
         setName(data.name);
         setEmail(data.email);
         setIsAdmin(data.isAdmin);
+        setIsSuperAdmin(data.isSuperAdmin);
         dispatch({ type: 'FETCH_SUCCESS' });
       } catch (err) {
         dispatch({
@@ -74,7 +76,7 @@ export default function UserEditScreen() {
       dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
         `/api/users/${userId}`,
-        { _id: userId, name, email, isAdmin },
+        { _id: userId, name, email, isAdmin,isSuperAdmin },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         }
@@ -129,6 +131,19 @@ export default function UserEditScreen() {
             disabled={userInfo._id===userId}
             onChange={(e) => setIsAdmin(e.target.checked)}
           />
+          {!userInfo.isSuperAdmin && (
+          <Form.Check
+          className="mb-3"
+          type="checkbox"
+          id="isSuperAdmin"
+          label="isSuperAdmin"
+          checked={isSuperAdmin}
+          
+          
+          onChange={(e) => setIsSuperAdmin(e.target.checked)}
+        />
+        )  }
+          
 
           <div className="mb-3">
             <Button disabled={loadingUpdate} type="submit">

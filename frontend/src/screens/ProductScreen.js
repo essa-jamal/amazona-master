@@ -136,9 +136,9 @@ function ProductScreen() {
           <ListGroup variant="flush">
             <ListGroup.Item>
               <Helmet>
-                <title>{product.name}</title>
+                <title>{product.name.split('@@')[lang]||product.name.split('@@')[defLang]||product.name.split('@@')[0]}</title>
               </Helmet>
-              <h1>{product.name}</h1>
+              <h1>{product.name.split('@@')[lang]||product.name.split('@@')[defLang]||product.name.split('@@')[0]}</h1>
             </ListGroup.Item>
             <ListGroup.Item>
               <Rating
@@ -167,7 +167,7 @@ function ProductScreen() {
             </ListGroup.Item>
             <ListGroup.Item>
             {frontEnd.Description[lang] ||frontEnd.Description[defLang] ||'Description'}:
-              <p>{product.description}</p>
+              <p>{product.description.split('@@')[lang]||product.description.split('@@')[defLang]||product.description.split('@@')[0]}</p>
             </ListGroup.Item>
           </ListGroup>
         </Col>

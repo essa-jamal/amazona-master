@@ -31,6 +31,7 @@ function HomeScreen( props) {
   });
   const { state } = useContext(Store);
   const { lang,defLang } = state;
+  
 const frontEnd=translator.home.frontEnd;
   
 
@@ -40,7 +41,7 @@ const frontEnd=translator.home.frontEnd;
       dispatch({ type: "FETCH_REQUEST" });
       try {
         const result = await axios.get("/api/products");
-        dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+        dispatch({ type: "FETCH_SUCCESS", payload: result.data.filter(x=>x.isAvailable) });
       } catch (err) {
         dispatch({ type: "FETCH_FAIL", payload: err.message });
       }
@@ -64,11 +65,18 @@ const frontEnd=translator.home.frontEnd;
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
           <Row>
-            {products.map((product) => (
+            { products.length ? products.map((product) => (
               <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
                 <Product product={product}></Product>
               </Col>
-            ))}
+            )):(
+              
+              products.filter(x=>x.isAvailable).length === 0 && (
+                <MessageBox>{frontEnd.NoProductAvailable[lang]||frontEnd.NoProductAvailable[defLang]||'No Product Avalable'}</MessageBox>
+              
+              
+              ))}
+            
           </Row>
         )}
       </div>
