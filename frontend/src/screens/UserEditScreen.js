@@ -97,7 +97,7 @@ export default function UserEditScreen() {
         <title>Edit User ${userId}</title>
       </Helmet>
       <h1>Edit User {userId}</h1>
-
+     
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
@@ -121,7 +121,7 @@ export default function UserEditScreen() {
               required
             />
           </Form.Group>
-
+          {userInfo.isAdmin &&
           <Form.Check
             className="mb-3"
             type="checkbox"
@@ -130,8 +130,8 @@ export default function UserEditScreen() {
             checked={isAdmin}
             disabled={userInfo._id===userId}
             onChange={(e) => setIsAdmin(e.target.checked)}
-          />
-          {!userInfo.isSuperAdmin && (
+          />}
+          {userInfo.isAdmin && userInfo.isSuperAdmin && (
           <Form.Check
           className="mb-3"
           type="checkbox"
