@@ -111,6 +111,8 @@ const translator = {
       Edit:['دەستکاری','حرر','Edit','Düzenlemek','ویرایش','Éditer','Redigieren',],
       Delete:['سڕینەوە','حذف','Delete','Silmek','حذف','Supprimer','Löschen',],
       ISADMIN:['بەڕێوەبەرە','هو المشرف','IS ADMIN','YÖNETİCİSİDİR','مدیر است','EST ADMIN','IST ADMIN',],
+      ISSUPERADMIN:['گەورە بەڕێوەبەرە','هو المشرف المتميز','IS SUPER ADMIN','YÖNETİCİSİDİR','مدیر فوق العاده است','est super administrateur','ist Super-Admin',],
+      
       YES:['بەڵێ','نعم','YES','Evet','بله','Oui','Ja',],
       No:['نەخێر','لا','No','Hayır','نه','Non','Nein',],  
     },
@@ -174,6 +176,9 @@ const translator = {
       ACTIONS:['چالاکی','الاجراءات','ACTIONS','EYLEMLER','اقدامات','ACTIONS','AKTIONEN',],
       Category:['پۆل','باب','Category','Kategori','رده','Catégorie','Kategorie',],
       BRAND:['براند','وسم','BRAND','DAĞLAMAK','برند','MARQUE','MARKE',],
+      userOwner:['خاوەنی بەکارهێنەر','مالك المستخدم','userOwner','kullanıcı Sahibi','صاحب کاربر','utilisateur Propriétaire','Benutzer Eigentümer',],
+      CreatedDate:['بەرواری دروست کردن','تاريخ الإنشاء','Created Date','Oluşturulma Tarihi','تاریخ ایجاد شده','Date de création','Erstellungsdatum',],
+      UpdateDate:['بەرواری نوێکردنەوە','تاريخ التحديث','Update Date','Güncelleme Tarihi','تاریخ به روز رسانی','Date de mise à jour','Datum der Aktualisierung',],
       CreateProduct:['بەرهەم دروست بکە','إنشاء منتج','Create Product',' Ürün Oluştur','ایجاد محصول','Créer un produit','Produkt erstellen',],
       PriceUnit:['یەکەی نرخ','وحدة الأسعار','Price Unit','Fiyat Birimi','واحد قیمت','Unité de prix','Preiseinheit',],
       ImageFile:['فایلی وێنە','ملف الصورة','Image File','Görüntü Dosyası','فایل تصویر','Fichier image','Bilddatei',],

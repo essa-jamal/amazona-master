@@ -169,6 +169,10 @@ export default function ProductListScreen() {
                 <th>{frontEnd.Price[lang]||frontEnd.Price[defLang]||'PRICE'}</th>
                 <th>{frontEnd.Category[lang]||frontEnd.Category[defLang]||'CATEGORY'}</th>
                 <th>{frontEnd.BRAND[lang]||frontEnd.BRAND[defLang]||'BRAND'}</th>
+                <th>{frontEnd.userOwner[lang]||frontEnd.userOwner[defLang]||'userOwner'}</th>
+                <th>{frontEnd.CreatedDate[lang]||frontEnd.CreatedDate[defLang]||'Created Date'}</th>
+                <th>{frontEnd.UpdateDate[lang]||frontEnd.UpdateDate[defLang]||'Update Date'}</th>
+                
                 <th>{frontEnd.ACTIONS[lang]||frontEnd.ACTIONS[defLang]||'ACTIONS'}</th>
               </tr>
             </thead>
@@ -187,6 +191,10 @@ export default function ProductListScreen() {
                   <td>{castNumber( product.price,lang,product.priceUnit)}</td>
                   <td>{product.category.split('@@')[lang]||product.category.split('@@')[defLang]||product.category.split('@@')[0]}</td>
                   <td>{product.brand}</td>
+                  <td>{product.userOwner?product.userOwner.name:'deleted User'}</td>
+                  <td>{castNumber( product.createdAt.substring(0, 10),lang)}</td>
+                  <td>{product.userUpdated && product.userUpdated._id!==product.userOwner._id && product.userUpdated.name+' : '+ castNumber( product.updatedAt.substring(0, 10),lang)}</td>
+                  
                   <td>
                     <Button
                       type="button"

@@ -33,6 +33,8 @@ productRouter.post(
       slug: 'sample-name-' + Date.now(),
       image: '/images/p1.jpg',
       price: 0,
+      userOwner : req.user._id,
+      userUpdated: req.user._id,
       category: 'sample category',
       brand: 'sample brand',
       countInStock: 0,
@@ -62,6 +64,7 @@ productRouter.put(
       product.isAvailable=req.body.isAvailable;
       product.category = req.body.category;
       product.brand = req.body.brand;
+      product.userUpdated = req.user._id;
       product.countInStock = req.body.countInStock;
       product.description = req.body.description;
       await product.save();
@@ -135,10 +138,13 @@ productRouter.get(
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
 
-    const products = await Product.find()
+const userOwner=req.user.isSuperAdmin?{}:{userOwner:req.user._id}
+
+const products = await Product.find(userOwner).populate('userOwner', 'name').populate('userUpdated', 'name')
       .skip(pageSize * (page - 1))
       .limit(pageSize);
-    const countProducts = await Product.countDocuments();
+    const countProducts = await Product.countDocuments(userOwner);
+  
     res.send({
       products,
       countProducts,

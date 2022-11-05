@@ -140,11 +140,12 @@ function App() {
                       title={frontEnd.Admin[lang] || frontEnd.Admin[defLang]}
                       id="admin-nav-dropdown"
                     >
-                      <LinkContainer to="/admin/dashboard">
+                    {  userInfo.isSuperAdmin  &&  (<LinkContainer to="/admin/dashboard">
                         <NavDropdown.Item>
                           {frontEnd.Dashboard[lang]  || frontEnd.Dashboard[defLang]}
                         </NavDropdown.Item>
                       </LinkContainer>
+                      )}
                       <LinkContainer to="/admin/products">
                         <NavDropdown.Item>
                           {frontEnd.Products[lang]  || frontEnd.Products[defLang]}

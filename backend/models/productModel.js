@@ -27,7 +27,9 @@ const productSchema = new mongoose.Schema(
     numReviews: { type: Number, required: true },
     reviews: [reviewSchema],
     isAvailable: { type: Boolean, default: false, required: true },
-
+    userOwner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    userUpdated: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    
   },
   {
     timestamps: true,

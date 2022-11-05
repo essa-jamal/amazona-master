@@ -10,6 +10,7 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
+import translator from '../translator';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -37,8 +38,8 @@ export default function UserEditScreen() {
   });
 
   const { state } = useContext(Store);
-  const { userInfo } = state;
-
+  const { userInfo,lang,defLang } = state;
+const frontEnd=translator.Customer.frontEnd;
   const params = useParams();
   const { id: userId } = params;
   const navigate = useNavigate();
@@ -94,9 +95,9 @@ export default function UserEditScreen() {
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Edit User ${userId}</title>
+        <title>{frontEnd.Update[lang]||'Edit User'} ${userId}</title>
       </Helmet>
-      <h1>Edit User {userId}</h1>
+      <h1>{frontEnd.Update[lang]||'Edit User'} {userId}</h1>
      
       {loading ? (
         <LoadingBox></LoadingBox>
@@ -105,7 +106,7 @@ export default function UserEditScreen() {
       ) : (
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>{frontEnd.Name[lang]||'Name'}</Form.Label>
             <Form.Control
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -113,7 +114,7 @@ export default function UserEditScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email</Form.Label>
+            <Form.Label>{frontEnd.Email[lang]||'Email'}</Form.Label>
             <Form.Control
               value={email}
               type="email"
@@ -126,7 +127,7 @@ export default function UserEditScreen() {
             className="mb-3"
             type="checkbox"
             id="isAdmin"
-            label="isAdmin"
+            label={frontEnd.ISADMIN[lang]||"isAdmin"}
             checked={isAdmin}
             disabled={userInfo._id===userId}
             onChange={(e) => setIsAdmin(e.target.checked)}
@@ -136,7 +137,7 @@ export default function UserEditScreen() {
           className="mb-3"
           type="checkbox"
           id="isSuperAdmin"
-          label="isSuperAdmin"
+          label={frontEnd.ISSUPERADMIN[lang]||"isSuperAdmin"}
           checked={isSuperAdmin}
           
           
@@ -147,7 +148,7 @@ export default function UserEditScreen() {
 
           <div className="mb-3">
             <Button disabled={loadingUpdate} type="submit">
-              Update
+              {frontEnd.Update[lang]|| 'Update'}
             </Button>
             {loadingUpdate && <LoadingBox></LoadingBox>}
           </div>

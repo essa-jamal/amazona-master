@@ -11,7 +11,8 @@ userRouter.get(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const users = await User.find({});
+    const userOwner=req.user.isSuperAdmin?{}:{_id:req.user._id}
+    const users = await User.find(userOwner);
     res.send(users);
   })
 );
@@ -41,7 +42,7 @@ userRouter.put(
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
       user.isAdmin =user.email === 'admin@example.com'?true: Boolean(req.body.isAdmin);
-      user.isSuperAdmin =Boolean( req.body.isAdmin) && Boolean( req.body.isSuperAdmin)
+      user.isSuperAdmin = Boolean( req.body.isSuperAdmin)
       
       const updatedUser = await user.save();
       res.send({ message: 'User Updated', user: updatedUser });

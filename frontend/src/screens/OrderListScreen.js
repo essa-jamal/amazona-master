@@ -139,13 +139,14 @@ export default function OrderListScreen() {
                     {frontEnd.Details[lang]||frontEnd.Details[defLang]||'Details'}
                   </Button>
                   &nbsp;
-                  <Button
+                  {userInfo.isSuperAdmin && (<Button
                     type="button"
                     variant="light"
                     onClick={() => deleteHandler(order)}
                   >
                     {frontEnd.Delete[lang]||frontEnd.Delete[defLang]||'Delete'}
-                  </Button>
+                  </Button>)}
+                  
                 </td>
               </tr>
             ))}

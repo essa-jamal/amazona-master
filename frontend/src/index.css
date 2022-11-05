@@ -104,3 +104,8 @@ button.thumbnail {
   
 }
 .unAvailableProduct{color: red;}
+table.table{
+  overflow: auto;
+  
+  
+}

@@ -13,7 +13,9 @@ orderRouter.get(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
-    const orders = await Order.find().populate('user', 'name');
+    const userOwner=req.user.isSuperAdmin?{}:{user:req.user._id}
+
+    const orders = await Order.find(userOwner).populate('user', 'name');
     res.send(orders);
   })
 );
@@ -43,17 +45,23 @@ orderRouter.get(
   isAuth,
   isAdmin,
   expressAsyncHandler(async (req, res) => {
+    const userOwner=req.user.isSuperAdmin?{}:{userOwner:req.user._id}
+    const user=req.user.isSuperAdmin?{}:{user:req.user._id}
+    const userId=req.user.isSuperAdmin?{}:{_id:req.user._id}
     
-    const orders = await Order.aggregate([
-
+  const orders = await Order.aggregate([
+      
+      
       {
         $group: {
           _id: null,
           numOrders: { $sum: 1 },
           totalSales: { $sum: '$totalPrice' },
         },
+        
+        
       },
-    ]);
+    ] );
     
     const users = await Users.aggregate([
       {
@@ -73,7 +81,7 @@ orderRouter.get(
         },
       },
       { $sort: { _id: 1 } },
-    ]);
+    ],user);
     const productCategories = await Product.aggregate([
       {
         $group: {
@@ -81,8 +89,8 @@ orderRouter.get(
           count: { $sum: 1 },
         },
       },
-    ]);
-   // console.log('users, orders, dailyOrders, productCategories =>',users, orders, dailyOrders, productCategories)
+    ],userOwner);
+   
     res.send({ users, orders, dailyOrders, productCategories });
   })
 );
