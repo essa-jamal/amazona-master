@@ -47,6 +47,7 @@ const frontEnd=translator.Customer.frontEnd;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSeller, setIsSeller] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   useEffect(() => {
@@ -59,6 +60,7 @@ const frontEnd=translator.Customer.frontEnd;
         setName(data.name);
         setEmail(data.email);
         setIsAdmin(data.isAdmin);
+        setIsSeller(data.isSeller || false);
         setIsSuperAdmin(data.isSuperAdmin);
         dispatch({ type: 'FETCH_SUCCESS' });
       } catch (err) {
@@ -77,7 +79,7 @@ const frontEnd=translator.Customer.frontEnd;
       dispatch({ type: 'UPDATE_REQUEST' });
       await axios.put(
         `/api/users/${userId}`,
-        { _id: userId, name, email, isAdmin,isSuperAdmin },
+        { _id: userId, name, email, isAdmin,isSeller,isSuperAdmin },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         }
@@ -122,6 +124,16 @@ const frontEnd=translator.Customer.frontEnd;
               required
             />
           </Form.Group>
+          {userInfo.isAdmin &&
+          <Form.Check
+            className="mb-3"
+            type="checkbox"
+            id="isAdmin"
+            label={frontEnd.ISSELLER[lang]||"Is Seller"}
+            checked={isSeller}
+            onChange={(e) => setIsSeller(e.target.checked)}
+          />}
+ 
           {userInfo.isAdmin &&
           <Form.Check
             className="mb-3"

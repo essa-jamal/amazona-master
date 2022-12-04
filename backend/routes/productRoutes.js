@@ -138,13 +138,14 @@ productRouter.get(
     const page = query.page || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
 
-const userOwner=req.user.isSuperAdmin?{}:{userOwner:req.user._id}
-
-const products = await Product.find(userOwner).populate('userOwner', 'name').populate('userUpdated', 'name')
+const seller=query.seller.split('?')[0]||'';
+console.log('seller',seller)
+const userOwner=seller?{userOwner:seller}:req.user.isSuperAdmin?{}:{userOwner:req.user._id}
+console.log('userOwner=>',userOwner)
+const products = await Product.find({...userOwner}).populate('userOwner', 'name').populate('userUpdated', 'name')
       .skip(pageSize * (page - 1))
       .limit(pageSize);
-    const countProducts = await Product.countDocuments(userOwner);
-  
+    const countProducts = await Product.countDocuments({ ...userOwner});
     res.send({
       products,
       countProducts,

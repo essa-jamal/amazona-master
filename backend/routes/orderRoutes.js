@@ -4,18 +4,24 @@ import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
 import Users from '../models/userModel.js';
 
-import { isAdmin, isAuth } from '../utils.js';
+import { isAdmin, isAdminOrSeller, isAuth } from '../utils.js';
 
 const orderRouter = express.Router();
 
 orderRouter.get(
   '/',
   isAuth,
-  isAdmin,
+  isAdminOrSeller,
   expressAsyncHandler(async (req, res) => {
-    const userOwner=req.user.isSuperAdmin?{}:{user:req.user._id}
 
-    const orders = await Order.find(userOwner).populate('user', 'name');
+    const seller=req.query.seller||'';
+    console.log('seller',seller)
+    const userOwner=seller?{seller}:req.user.isSuperAdmin?{}:{userOwner:req.user._id}
+    console.log('userOwner=>',userOwner)
+    
+
+    
+    const orders = await Order.find({ ...userOwner}).populate('user', 'name');
     res.send(orders);
   })
 );
@@ -25,6 +31,7 @@ orderRouter.post(
   isAuth,
   expressAsyncHandler(async (req, res) => {
     const newOrder = new Order({
+      seller: req.body.orderItems[0].seller,
       orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
       shippingAddress: req.body.shippingAddress,
       paymentMethod: req.body.paymentMethod,
@@ -33,7 +40,8 @@ orderRouter.post(
       taxPrice: req.body.taxPrice,
       totalPrice: req.body.totalPrice,
       user: req.user._id,
-    });
+      
+        });
 
     const order = await newOrder.save();
     res.status(201).send({ message: 'New Order Created', order });

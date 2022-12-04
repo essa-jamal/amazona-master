@@ -27,7 +27,7 @@ import SearchBox from "./components/SearchBox";
 import SearchScreen from "./screens/SearchScreen";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardScreen from "./screens/DashboardScreen";
-import AdminRoute from "./components/AdminRoute";
+import AdminRoute, { SellerOrAdminRoute, SellerRoute } from "./components/AdminRoute";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
@@ -135,6 +135,24 @@ function App() {
                       {frontEnd.SignIn[lang] || frontEnd.SignIn[defLang]}
                     </Link>
                   )}
+{userInfo && userInfo.isSeller && (
+                    <NavDropdown
+                      title={frontEnd.Seller[lang] || frontEnd.Seller[defLang]||'Seller'}
+                      id="admin-nav-dropdown"
+                    >
+                      <LinkContainer to="/admin/products/seller">
+                        <NavDropdown.Item>
+                          {frontEnd.Products[lang]  || frontEnd.Products[defLang]}
+                        </NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/orders/seller">
+                        <NavDropdown.Item>
+                          {frontEnd.Orders[lang]  || frontEnd.Orders[defLang]}
+                        </NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
+
                   {userInfo && userInfo.isAdmin && (
                     <NavDropdown
                       title={frontEnd.Admin[lang] || frontEnd.Admin[defLang]}
@@ -286,9 +304,9 @@ function App() {
               <Route
                 path="/admin/product/:id"
                 element={
-                  <AdminRoute>
+                  <SellerOrAdminRoute>
                     <ProductEditScreen />
-                  </AdminRoute>
+                  </SellerOrAdminRoute>
                 }
               ></Route>
               <Route
@@ -299,6 +317,28 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+           
+           
+
+              {/* Seller Routes */}
+              <Route
+                path="/admin/orders/seller"
+                element={
+                  <SellerRoute>
+                    <OrderListScreen />
+                  </SellerRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/products/seller"
+                element={
+                  <SellerRoute>
+                    <ProductListScreen />
+                  </SellerRoute>
+                }
+              ></Route>
+           
+              {/*End of Seller Routes */}
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>

@@ -56,7 +56,10 @@ const reducer = (state, action) => {
 };
 
 export default function ProductListScreen() {
-  const [
+const location=useLocation()
+const sellerMode = location.pathname.indexOf('/seller') >= 0;
+
+const [
     {
       loading,
       error,
@@ -81,10 +84,13 @@ export default function ProductListScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/products/admin?page=${page} `, {
+ 
+        const seller=sellerMode?userInfo._id:''
+        console.log('seller',seller)
+        const { data } = await axios.get(`/api/products/admin?seller=${seller}?page=${page}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-
+console.log('data')
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {}
     };

@@ -8,6 +8,8 @@ const translator = {
         SignOut:['چوونە دەرەوە','تسجيل الخروج','Sign Out','Oturumu Kapat','خارج شدن','Se déconnecter','Abmelden'],
         SignIn:['چوونەژوورەوە','تسجيل الدخول','Sign In','Oturum Aç','ورود به برنامه','Connexion','Anmelden'],
         Admin:['بەڕێوەبەر','مدیر','Admin','yönetici','مدیر','Admin','Administrator'],
+        Seller:['فرۆشیارە','البائع','ُSeller','Satıcı','فروشنده','Vendeur','Verkäufer'],
+
         Dashboard:['کورتە','لوحه القياده','Dashboard','Tablo','داشبورد','Tableau de bord','Instrumententafel'],
         Products:['بەرهەمەکان','منتجات','Products','Ürünler','محصولات','Produits','Produkte'],
         Orders:['داواکارییەکان','طلبات','Orders','Sipariş','سفارشات','Ordres','Aufträge'],
@@ -112,7 +114,7 @@ const translator = {
       Delete:['سڕینەوە','حذف','Delete','Silmek','حذف','Supprimer','Löschen',],
       ISADMIN:['بەڕێوەبەرە','هو المشرف','IS ADMIN','YÖNETİCİSİDİR','مدیر است','EST ADMIN','IST ADMIN',],
       ISSUPERADMIN:['گەورە بەڕێوەبەرە','هو المشرف المتميز','IS SUPER ADMIN','YÖNETİCİSİDİR','مدیر فوق العاده است','est super administrateur','ist Super-Admin',],
-      
+      ISSELLER:['فرۆشیارە','البائع','ُSeller','Satıcı','فروشنده','Vendeur','Verkäufer'],
       YES:['بەڵێ','نعم','YES','Evet','بله','Oui','Ja',],
       No:['نەخێر','لا','No','Hayır','نه','Non','Nein',],  
     },

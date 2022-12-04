@@ -107,6 +107,7 @@ const frontEnd=translator.Customer.frontEnd;
               <th>{frontEnd.ID[lang]||frontEnd.ID[defLang]||'ID'}</th>
               <th>{frontEnd.Name[lang]||frontEnd.Name[defLang]||'NAME'}</th>
               <th>{frontEnd.Email[lang]||frontEnd.Email[defLang]||'EMAIL'}</th>
+              <th>{frontEnd.ISSELLER[lang]||frontEnd.ISSELLER[defLang]||'IS Seller'}</th>
               <th>{frontEnd.ISADMIN[lang]||frontEnd.ISADMIN[defLang]||'IS ADMIN'}</th>
               <th>{frontEnd.ISSUPERADMIN[lang]||frontEnd.ISADMIN[defLang]||'IS ADMIN'}</th>
               <th>{frontEnd.ACTIONS[lang]||frontEnd.ACTIONS[defLang]||'ACTIONS'}</th>
@@ -118,6 +119,7 @@ const frontEnd=translator.Customer.frontEnd;
                 <td>{user._id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
+                <td>{user.isSeller ? frontEnd.YES[lang]||frontEnd.YES[defLang]||'YES' :frontEnd.No[lang]||frontEnd.No[defLang]|| 'NO'}</td>
                 <td>{user.isAdmin ? frontEnd.YES[lang]||frontEnd.YES[defLang]||'YES' :frontEnd.No[lang]||frontEnd.No[defLang]|| 'NO'}</td>
                 <td>{user.isSuperAdmin ? frontEnd.YES[lang]||frontEnd.YES[defLang]||'YES' :frontEnd.No[lang]||frontEnd.No[defLang]|| 'NO'}</td>
                 

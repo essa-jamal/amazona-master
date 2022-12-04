@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useReducer } from "react";
 import Button from "react-bootstrap/Button";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { Store } from "../Store";
@@ -39,7 +39,9 @@ const reducer = (state, action) => {
   }
 };
 export default function OrderListScreen() {
-  const navigate = useNavigate();
+  const location=useLocation()
+  const sellerMode = location.pathname.indexOf('/seller') >= 0;
+    const navigate = useNavigate();
   const { state } = useContext(Store);
   const { userInfo,lang,defLang } = state;
   const frontEnd=translator.admin.frontEnd
@@ -53,8 +55,11 @@ export default function OrderListScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const seller=sellerMode?userInfo._id:''
+        console.log('seller',seller)
+
         dispatch({ type: "FETCH_REQUEST" });
-        const { data } = await axios.get(`/api/orders`, {
+        const { data } = await axios.get(`/api/orders?seller=${seller}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: "FETCH_SUCCESS", payload: data });
@@ -70,7 +75,7 @@ export default function OrderListScreen() {
     } else {
       fetchData();
     }
-  }, [userInfo, successDelete]);
+  }, [userInfo, successDelete,sellerMode]);
 
   const deleteHandler = async (order) => {
     if (window.confirm(frontEnd.Areyousuretodelete[lang]||frontEnd.Areyousuretodelete[defLang]||'Are you sure to delete?')) {
