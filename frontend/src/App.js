@@ -36,6 +36,7 @@ import UserEditScreen from "./screens/UserEditScreen";
 import Form from "react-bootstrap/Form";
 import translator from "./translator";
 import data from "./data";
+import SellerScreen from './screens/SellerScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -233,6 +234,7 @@ function App() {
         <main className={" " + languages[lang].direction + " "}>
           <Container className="mt-3">
             <Routes>
+              <Route path="/seller/:id" element={<SellerScreen />} />
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signup" element={<SignupScreen />} />

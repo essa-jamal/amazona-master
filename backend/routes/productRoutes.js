@@ -7,17 +7,24 @@ import User from '../models/userModel.js';
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
-
+  const seller = req.query.seller || '';
+  const sellerFilter = seller ? { userOwner:seller } : {};
   const user=User.find(req.user)
   
   if(user && user.isAdmin){
-  const products = await Product.find();
+  const products = await Product.find({...sellerFilter}).populate(
+    'userOwner',
+    'email seller.name seller.logo seller.rating seller.numReviews seller.description'
+  );
   console.log('Admin User')
   res.send(products);
 }
 else{
-  const products = await Product.find({isAvailable:true});
-  
+  const products = await Product.find({isAvailable:true,...sellerFilter}).populate(
+    'userOwner',
+    'email seller.name seller.logo seller.rating seller.numReviews seller.description'
+  );
+  console.log(products)
   res.send(products);
 }
 
@@ -257,7 +264,10 @@ productRouter.get('/slug/:slug', async (req, res) => {
   }
 });
 productRouter.get('/:id', async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.id).populate(
+    'userOwner',
+    'email seller.name seller.logo seller.rating seller.numReviews'
+  );
   if (product) {
     res.send(product);
   } else {
