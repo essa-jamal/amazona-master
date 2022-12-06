@@ -30,28 +30,39 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [sellerName, setSellerName] = useState(userInfo.sellerName ||'');
+  const [sellerNameK, setSellerNameK] = useState((userInfo.sellerName && userInfo.sellerName.split('&&')[0] ) ||'');
+  const [sellerNameA, setSellerNameA] = useState((userInfo.sellerName && userInfo.sellerName.split('&&')[1] )||'');
+  const [sellerNameE, setSellerNameE] = useState((userInfo.sellerName && userInfo.sellerName.split('&&')[2] )||'');
+  const [sellerNameT, setSellerNameT] = useState((userInfo.sellerName && userInfo.sellerName.split('&&')[3] )||'');
+  const [sellerNameP, setSellerNameP] = useState((userInfo.sellerName && userInfo.sellerName.split('&&')[4] )||'');
+  const [sellerNameF, setSellerNameF] = useState((userInfo.sellerName && userInfo.sellerName.split('&&')[5] )||'');
+  const [sellerNameG, setSellerNameG] = useState((userInfo.sellerName && userInfo.sellerName.split('&&')[6] )||'');
   const [sellerLogo, setSellerLogo] = useState(userInfo.sellerLogo ||'');
-  const [sellerDescription, setSellerDescription] = useState(userInfo.sellerDescription ||'');
+  const [sellerDescriptionK, setSellerDescriptionK] = useState((userInfo.sellerDescription && userInfo.sellerDescription.split('&&')[0]) ||'');
+  const [sellerDescriptionA, setSellerDescriptionA] = useState((userInfo.sellerDescription && userInfo.sellerDescription.split('&&')[1]) ||'');
+  const [sellerDescriptionE, setSellerDescriptionE] = useState((userInfo.sellerDescription && userInfo.sellerDescription.split('&&')[2]) ||'');
+  const [sellerDescriptionT, setSellerDescriptionT] = useState((userInfo.sellerDescription && userInfo.sellerDescription.split('&&')[3]) ||'');
+  const [sellerDescriptionP, setSellerDescriptionP] = useState((userInfo.sellerDescription && userInfo.sellerDescription.split('&&')[4]) ||'');
+  const [sellerDescriptionF, setSellerDescriptionF] = useState((userInfo.sellerDescription && userInfo.sellerDescription.split('&&')[5]) ||'');
+  const [sellerDescriptionG, setSellerDescriptionG] = useState((userInfo.sellerDescription && userInfo.sellerDescription.split('&&')[6]) ||'');
   
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
     loadingUpdate: false,
   });
-  console.log('userInfo =>',userInfo)
+  
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      console.log('name,email,password,sellerName,sellerLogo,sellerDescription,',name,
-      email,      password,sellerName,sellerLogo,sellerDescription)
+  
       const { data } = await axios.put(
         '/api/users/profile',
         {
           name,
           email,
           password,
-          sellerName:sellerName,
+          sellerName:''+sellerNameK+'&&'+sellerNameA+'&&'+sellerNameE+'&&'+sellerNameT+'&&'+sellerNameP+'&&'+sellerNameF+'&&'+sellerNameG+'',
           sellerLogo:sellerLogo,
-          sellerDescription:sellerDescription,
+          sellerDescription:''+sellerDescriptionK+'&&'+sellerDescriptionA+'&&'+sellerDescriptionE+'&&'+sellerDescriptionT+'&&'+sellerDescriptionP+'&&'+sellerDescriptionF+'&&'+sellerDescriptionG+'',
         },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -113,14 +124,46 @@ export default function ProfileScreen() {
         
 {userInfo.isSeller && (
   <>
-<h1>Seller</h1>
+<h1>{frontEnd.Seller[lang]||frontEnd.Seller[defLang]||'Seller'}</h1>
 <Form.Group className="mb-3" controlId="name">
 <Form.Label>{frontEnd.Name[lang]||frontEnd.Name[defLang]||'Name'}</Form.Label>
 <Form.Control
-  value={sellerName}
-  onChange={(e) => setSellerName(e.target.value)}
+  value={sellerNameK}
+  onChange={(e) => setSellerNameK(e.target.value)}
+  placeholder="ناوی فرۆشگا"
   
 />
+<Form.Control
+  value={sellerNameA}
+  onChange={(e) => setSellerNameA(e.target.value)}
+  placeholder="أدخل اسم المبيعات"
+/>
+<Form.Control
+  value={sellerNameE}
+  onChange={(e) => setSellerNameE(e.target.value)}
+  placeholder="Enter Sales Name"
+/>
+<Form.Control
+  value={sellerNameT}
+  onChange={(e) => setSellerNameT(e.target.value)}
+  placeholder="Satış Adını Girin"
+/>
+<Form.Control
+  value={sellerNameP}
+  onChange={(e) => setSellerNameP(e.target.value)}
+  placeholder="نام فروش را وارد کنید"
+/>
+<Form.Control
+  value={sellerNameF}
+  onChange={(e) => setSellerNameF(e.target.value)}
+  placeholder="Entrez le nom du client"
+/>
+<Form.Control
+  value={sellerNameG}
+  onChange={(e) => setSellerNameG(e.target.value)}
+  placeholder="Geben Sie den Verkaufsnamen ein"
+/>
+
 </Form.Group>
 <Form.Group className="mb-3" controlId="sellerlogo">
 <Form.Label>{'Seller Logo'}</Form.Label>
@@ -132,11 +175,41 @@ export default function ProfileScreen() {
 </Form.Group>
 
 <Form.Group className="mb-3" controlId="sellerlogo">
-<Form.Label>{'Seller Description'}</Form.Label>
+<Form.Label>{frontEnd.SellerDescription[lang]||'Seller Description'}</Form.Label>
 <Form.Control
-  value={sellerDescription}
-  onChange={(e) => setSellerDescription(e.target.value)}
-  
+  value={sellerDescriptionK}
+  onChange={(e) => setSellerDescriptionK(e.target.value)}
+  placeholder="باسکردن بنوسە"
+/>
+<Form.Control
+  value={sellerDescriptionA}
+  onChange={(e) => setSellerDescriptionA(e.target.value)}
+  placeholder="أدخل الوصف"
+/>
+<Form.Control
+  value={sellerDescriptionE}
+  onChange={(e) => setSellerDescriptionE(e.target.value)}
+  placeholder="Enter Descripton"
+/>
+<Form.Control
+  value={sellerDescriptionT}
+  onChange={(e) => setSellerDescriptionT(e.target.value)}
+  placeholder="Açıklama Girin"
+/>
+<Form.Control
+  value={sellerDescriptionP}
+  onChange={(e) => setSellerDescriptionP(e.target.value)}
+  placeholder="توضیحات را وارد کنید"
+/>
+<Form.Control
+  value={sellerDescriptionF}
+  onChange={(e) => setSellerDescriptionF(e.target.value)}
+  placeholder="Entrez la description"
+/>
+<Form.Control
+  value={sellerDescriptionG}
+  onChange={(e) => setSellerDescriptionG(e.target.value)}
+  placeholder="Beschreibung eingeben"
 />
 </Form.Group>
 </>

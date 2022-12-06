@@ -115,6 +115,8 @@ const translator = {
       ISADMIN:['بەڕێوەبەرە','هو المشرف','IS ADMIN','YÖNETİCİSİDİR','مدیر است','EST ADMIN','IST ADMIN',],
       ISSUPERADMIN:['گەورە بەڕێوەبەرە','هو المشرف المتميز','IS SUPER ADMIN','YÖNETİCİSİDİR','مدیر فوق العاده است','est super administrateur','ist Super-Admin',],
       ISSELLER:['فرۆشیارە','البائع','ُSeller','Satıcı','فروشنده','Vendeur','Verkäufer'],
+      Seller:['فرۆشیار','البائع','ُSeller','Satıcı','فروشنده','Vendeur','Verkäufer'],
+      SellerDescription:['وەسفی فرۆشیار','وصف البائع','Seller Description','Satıcı Açıklaması','توضیحات فروشنده','Description du vendeur','Beschreibung des Verkäufers'],
       YES:['بەڵێ','نعم','YES','Evet','بله','Oui','Ja',],
       No:['نەخێر','لا','No','Hayır','نه','Non','Nein',],  
     },

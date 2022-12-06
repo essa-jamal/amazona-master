@@ -44,7 +44,7 @@ const frontEnd=translator.product.frontEnd
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
         <Row>
-        <Col>
+        <Col md={5}>
         <Card.Text>{
         
         castNumber( product.price,lang,product.priceUnit)}
@@ -53,7 +53,7 @@ const frontEnd=translator.product.frontEnd
          
         {product.userOwner && product.userOwner.seller &&(
        <Col>   <Link to={`/seller/${product.userOwner._id}`}>
-          <Card.Title >{product.userOwner.seller.name}</Card.Title>
+          <Card.Title ><h6>{product.userOwner.seller.name.split('&&')[lang]||product.userOwner.seller.name.split('&&')[0]}</h6></Card.Title>
         </Link>
         </Col>
 

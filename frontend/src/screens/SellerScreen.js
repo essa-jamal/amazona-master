@@ -59,13 +59,13 @@ const frontEnd=translator.home.frontEnd;
     };
     
     fetchData();
-  }, [lang]);
+  }, [lang,id]);
 
   return (
     <div>
       <Helmet>
         <title>
-          Seller: {sellerData? sellerData.seller.name:''}
+          Seller: {sellerData? sellerData.seller.name.split('&&')[lang]||sellerData.seller.name.split('&&')[0]:''}
 
         
         </title>
@@ -81,10 +81,10 @@ const frontEnd=translator.home.frontEnd;
                    <img
                     className="small logo"
                     src={sellerData?sellerData.seller.logo:''}
-                    alt={sellerData?sellerData.seller.name:''}
+                    alt={sellerData?sellerData.seller.name.split('&&')[lang]||sellerData.seller.name.split('&&')[0]:''}
                   ></img>
                    </Col> 
-                   <Col><h2> {sellerData?sellerData.seller.name:''}</h2></Col>
+                   <Col><h5> {sellerData?sellerData.seller.name.split('&&')[lang]||sellerData.seller.name.split('&&')[0]:''}</h5></Col>
                      </Row>
                      <Row>
                       <Col>
@@ -100,7 +100,7 @@ const frontEnd=translator.home.frontEnd;
                 <ListGroup.Item>
                   <Row>
         <p>
-          {sellerData&&sellerData.seller.description}
+          {(sellerData&&sellerData.seller.description.split('&&')[lang])||(sellerData && sellerData.seller.description.split('&&')[0])}
         </p>
             
                   </Row>
@@ -118,7 +118,7 @@ const frontEnd=translator.home.frontEnd;
         ) : (
           <Row>
             { products.length ? products.map((product) => (
-              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+              <Col key={product.slug} sm={6} md={5} lg={6} className="mb-3">
                 <Product product={product}></Product>
               </Col>
             )):(

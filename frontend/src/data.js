@@ -8,6 +8,13 @@ const data = {
       disabled: false,
     },
     {
+      name: "Electronic",
+      value: 'ئەلکترۆنی@@إلكتروني@@Electronic@@Elektronik@@الکترونیکی@@Électronique@@Elektronisch',
+      seq:15,
+      available: true,
+      disabled: false,
+    },
+    {
       name:'Shirts',
       value: 'کراس@@قمص@@Shirts@@Gömlek@@پیراهن@@Chemises@@Hemden',
       available: true,
