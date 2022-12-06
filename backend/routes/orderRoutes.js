@@ -30,8 +30,9 @@ orderRouter.post(
   '/',
   isAuth,
   expressAsyncHandler(async (req, res) => {
+console.log('req.body.orderItems[0].userOwner._id',req.body.orderItems[0].userOwner)
     const newOrder = new Order({
-      seller: req.body.orderItems[0].seller,
+      seller: req.body.orderItems[0].userOwner,
       orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
       shippingAddress: req.body.shippingAddress,
       paymentMethod: req.body.paymentMethod,

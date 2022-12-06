@@ -58,6 +58,7 @@ const frontEnd=translator.Shipping.frontEnd;
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
+          
         },
         {
           headers: {

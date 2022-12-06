@@ -71,7 +71,7 @@ const frontEnd=translator.home.frontEnd;
         </title>
       </Helmet>
       <Row>
-      <Col md={3} sm={12}>
+      <Col md={3} >
           <Card>
             <Card.Body>
               <ListGroup variant="flush">
@@ -109,7 +109,7 @@ const frontEnd=translator.home.frontEnd;
             </Card.Body>
           </Card>
         </Col>
-      <Col md={9} lg={9}>
+      <Col md={9} >
       <div className="products">
         {loading ? (
            <LoadingBox />

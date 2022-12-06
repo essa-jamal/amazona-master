@@ -1,7 +1,7 @@
 import express from 'express';
 import Product from '../models/productModel.js';
 import expressAsyncHandler from 'express-async-handler';
-import { isAuth, isAdmin } from '../utils.js';
+import { isAuth, isAdmin, isAdminOrSeller } from '../utils.js';
 import User from '../models/userModel.js';
 
 const productRouter = express.Router();
@@ -33,7 +33,7 @@ else{
 productRouter.post(
   '/',
   isAuth,
-  isAdmin,
+  isAdminOrSeller,
   expressAsyncHandler(async (req, res) => {
     const newProduct = new Product({
       name: 'sample name ' + Date.now(),
@@ -57,7 +57,7 @@ productRouter.post(
 productRouter.put(
   '/:id',
   isAuth,
-  isAdmin,
+  isAdminOrSeller,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
     const product = await Product.findById(productId);
@@ -139,20 +139,21 @@ const PAGE_SIZE = 3;
 productRouter.get(
   '/admin',
   isAuth,
-  isAdmin,
+  isAdminOrSeller,
   expressAsyncHandler(async (req, res) => {
     const { query } = req;
-    const page = query.page || 1;
+    const page = query.seller.split('?')[1].split('=')[1] || 1;
     const pageSize = query.pageSize || PAGE_SIZE;
 
 const seller=query.seller.split('?')[0]||'';
-console.log('seller',seller)
+
 const userOwner=seller?{userOwner:seller}:req.user.isSuperAdmin?{}:{userOwner:req.user._id}
-console.log('userOwner=>',userOwner)
+
 const products = await Product.find({...userOwner}).populate('userOwner', 'name').populate('userUpdated', 'name')
       .skip(pageSize * (page - 1))
       .limit(pageSize);
     const countProducts = await Product.countDocuments({ ...userOwner});
+console.log(products.length)
     res.send({
       products,
       countProducts,

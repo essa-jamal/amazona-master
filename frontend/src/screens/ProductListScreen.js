@@ -86,11 +86,11 @@ const [
       try {
  
         const seller=sellerMode?userInfo._id:''
-        console.log('seller',seller)
+        //console.log('seller',seller)
         const { data } = await axios.get(`/api/products/admin?seller=${seller}?page=${page}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-console.log('data')
+
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {}
     };
@@ -100,7 +100,7 @@ console.log('data')
     } else {
       fetchData();
     }
-  }, [page, userInfo, successDelete]);
+  }, [page, userInfo, successDelete,sellerMode]);
 
   const createHandler = async () => {
     if (window.confirm(frontEnd.Areyousuretocreate[lang]||frontEnd.Areyousuretocreate[defLang]||'Are you sure to create?')) {
@@ -199,7 +199,7 @@ console.log('data')
                   <td>{product.brand}</td>
                   <td>{product.userOwner?product.userOwner.name:'deleted User'}</td>
                   <td>{castNumber( product.createdAt.substring(0, 10),lang)}</td>
-                  <td>{product.userUpdated && product.userUpdated._id!==product.userOwner._id && product.userUpdated.name+' : '+ castNumber( product.updatedAt.substring(0, 10),lang)}</td>
+                  <td>{ product && product.userUpdated &&product.userUpdated.name && product.userUpdated.name+' : '+ castNumber( product.updatedAt.substring(0, 10),lang)}</td>
                   
                   <td>
                     <Button
